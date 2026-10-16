@@ -28303,7 +28303,7 @@ document.addEventListener('click', function(e){
       +'<div class="ec-toast" id="ecToast">支付成功,权益卡已到账</div>';
     phone.appendChild(page);
   }
-  function renderEc(pid){
+  window.renderEc=function(pid){
     var p=EC_PRODUCTS[pid];
     if(!p){pid='plus';p=EC_PRODUCTS.plus;}
     var sw='';
@@ -28320,7 +28320,7 @@ document.addEventListener('click', function(e){
     document.getElementById('ecRulesWrap').innerHTML=rules;
     document.querySelectorAll('#equityCardPage .ec-table [data-p]').forEach(function(el){el.classList.toggle('hl',el.getAttribute('data-p')===pid);});
     document.getElementById('ecBuyBar').innerHTML='<div class="ec-buy-total">实付款:<b>¥'+p.price+'</b>'+(p.saveLine?'<span>'+p.saveLine+'</span>':'')+'</div><button onclick="payEquityCard()">确认支付</button>';
-  }
+  };
   window.openEquityCard=function(pid){
     ensureEquityCardPage();
     renderEc(pid||'plus');
