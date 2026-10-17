@@ -10809,7 +10809,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var checkout=document.createElement('section');
     checkout.id='groupCheckoutPage';
     checkout.className='group-checkout-page';
-    checkout.innerHTML='<div class="gc-scroll"><div class="gc-hero">'+miniTop('确认订单','closeGroupCheckout()',true)+'</div><section class="gc-card-dark"><div class="gc-course-row"><h1>疯狂药球 Mad Slam</h1><span>详情 ›</span></div><div class="gc-info"><div>▣ 时间　10月27日 星期五 17:10 - 18:10</div><div>▣ 教室　深圳市南山海上世界汇港二期动静教室</div><div>◉ 教练　<span class="checkout-coach-avatar" style="width:22px;height:22px"></span>ALEX</div></div><section class="gc-panel"><h2>预约人数</h2><div class="gc-people"><button class="active">1人</button><button>2人</button><button>3人</button></div></section></section><div class="gc-white"><section class="gc-pay-card"><h2>支付方式</h2><div class="gc-row" onclick="openGcPassSheet()" style="cursor:pointer"><span>▧ 次卡</span><em id="gcPassRowHint">3张可用 ›</em></div><div class="gc-row" onclick="openGcDcSheet()" style="cursor:pointer"><span>▥ 折扣卡</span><em id="gcDcRowHint">1张可用 ›</em></div><div class="gc-row"><span>▣ 储值卡</span><span>余额：¥100.00 ●</span></div></section><section class="gc-pay-card"><h2>支付明细</h2><div class="gc-row"><span>课程金额</span><b id="gcCourseAmount">¥0.00</b></div><div class="gc-row" id="gcDcDeductRow" style="display:none"><span id="gcPassDeductLabel">▧ 次卡抵扣（权益卡 · 全档通用次卡）</span><b>-¥109.00</b></div><div class="gc-row"><span>▣ 单品优惠券</span><em>2张可用 ›</em></div><div class="gc-row"><span>✿ 订单优惠券</span><em>2张可用 ›</em></div><div class="gc-row" id="gcVipRow"><span>会员折扣（95折）</span><b>-¥4.45</b></div><div class="gc-row" id="gcBalanceRow"><span>储值卡支付</span><b>-¥84.45</b></div><div class="gc-row total"><span>待支付</span><b id="gcPendingAmount">¥0.00</b></div></section></div></div><div class="gc-bottom"><div class="gc-total" id="gcTotal">实付款：<b>-¥84.45⌄</b><span>已优惠：¥4.45</span></div><button onclick="openGroupPaySuccess()">确认排队</button></div>';
+    checkout.innerHTML='<div class="gc-scroll"><div class="gc-hero">'+miniTop('确认订单','closeGroupCheckout()',true)+'</div><section class="gc-card-dark"><div class="gc-course-row"><h1>疯狂药球 Mad Slam</h1><span>详情 ›</span></div><div class="gc-info"><div>▣ 时间　10月27日 星期五 17:10 - 18:10</div><div>▣ 教室　深圳市南山海上世界汇港二期动静教室</div><div>◉ 教练　<span class="checkout-coach-avatar" style="width:22px;height:22px"></span>ALEX</div></div><section class="gc-panel"><h2>预约人数</h2><div class="gc-people"><button class="active">1人</button><button>2人</button><button>3人</button></div></section></section><div class="gc-white"><section class="gc-pay-card"><h2>支付方式</h2><div class="gc-row" onclick="openGcPassSheet()" style="cursor:pointer"><span>▧ 次卡</span><em id="gcPassRowHint">3张可用 ›</em></div><div class="gc-row" onclick="openGcDcSheet()" style="cursor:pointer"><span>▥ 折扣卡</span><em id="gcDcRowHint">次卡用完后可用 ›</em></div><div class="gc-row"><span>▣ 储值卡</span><span>余额：¥100.00 ●</span></div></section><section class="gc-pay-card"><h2>支付明细</h2><div class="gc-row"><span>课程金额</span><b id="gcCourseAmount">¥0.00</b></div><div class="gc-row" id="gcDcDeductRow" style="display:none"><span id="gcPassDeductLabel">▧ 次卡抵扣（权益卡 · 全档通用次卡）</span><b>-¥109.00</b></div><div class="gc-row"><span>▣ 单品优惠券</span><em>2张可用 ›</em></div><div class="gc-row"><span>✿ 订单优惠券</span><em>2张可用 ›</em></div><div class="gc-row" id="gcVipRow"><span>会员折扣（95折）</span><b>-¥4.45</b></div><div class="gc-row" id="gcBalanceRow"><span>储值卡支付</span><b>-¥84.45</b></div><div class="gc-row total"><span>待支付</span><b id="gcPendingAmount">¥0.00</b></div></section></div></div><div class="gc-bottom"><div class="gc-total" id="gcTotal">实付款：<b>-¥84.45⌄</b><span>已优惠：¥4.45</span></div><button onclick="openGroupPaySuccess()">确认排队</button></div>';
     phone.appendChild(checkout);
     var success=document.createElement('section');
     success.id='groupPaySuccessPage';
@@ -28298,19 +28298,19 @@ document.addEventListener('click', function(e){
       bene2:{n:'85 折',t:'× 3 次',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7)。'},
       calc:[['2 次 69 元课次卡','值 ¥138'],['3 次 85 折通用(按 109 元课计,最高省)','值 ¥49']],
       total:['权益价值约 ¥187','实付仅 ¥129'],
-      rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','未使用随时退;已使用按已核销课程挂牌价核算,剩余退还']]},
+      rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用顺序','先用次卡约课,2 次次卡用完后折扣卡自动解锁,次卡未用完时折扣卡不可用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','次卡全部用完后不支持退款;其余可退:退款=实付-时间折算(实付÷30×已持有天数)-已用次卡价值(每次取 实付÷2 与核销课挂牌价 较高者)-已用折扣卡优惠(挂牌价×15%),下限 ¥0']]},
     plus:{shortName:'双课轻享',name:'双课轻享权益卡',price:'111',orig:'149',tag:'双十一 · 新人价',saveTag:'新客立省 ¥38',saveLine:'已优惠:¥38',
       bene1:{n:'2 次',t:'89/69 元课',b:'常规团课次卡',s:'可约 89 / 69 元课程;想上 109 元高阶课,用 85 折折扣卡约。'},
       bene2:{n:'85 折',t:'× 6 次',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),第 3 节课开始继续省。'},
       calc:[['2 次常规团课次卡(按 89 元课计)','值 ¥178'],['6 次 85 折通用(按 109 元课计,最高省)','值 ¥98']],
       total:['权益价值约 ¥276','实付仅 ¥111'],
-      rules:[['适用人群','所有用户均可购买;¥111 新人价仅限新客(从未有支付成功订单),每人限购 1 张'],['新人价窗口','11 月 8 日 00:00 — 11 月 11 日 23:59,限量发售;窗口结束后恢复常态价 ¥149'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','未使用随时退;已使用按已核销课程挂牌价核算,剩余退还']]},
+      rules:[['适用人群','所有用户均可购买;¥111 新人价仅限新客(从未有支付成功订单),每人限购 1 张'],['新人价窗口','11 月 8 日 00:00 — 11 月 11 日 23:59,限量发售;窗口结束后恢复常态价 ¥149'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用顺序','先用次卡约课,2 次次卡用完后折扣卡自动解锁,次卡未用完时折扣卡不可用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','次卡全部用完后不支持退款;其余可退:退款=实付-时间折算(实付÷30×已持有天数)-已用次卡价值(每次取 实付÷2 与核销课挂牌价 较高者)-已用折扣卡优惠(挂牌价×15%),下限 ¥0']]},
     pro:{shortName:'全档畅练',name:'全档畅练权益卡',price:'179',orig:'',tag:'',saveTag:'',saveLine:'',
       bene1:{n:'2 次',t:'全档通用',b:'全档通用团课次卡',s:'69 / 89 / 109 元课任意约,不用算价格带;想体验高阶课,直接约。'},
       bene2:{n:'85 折',t:'不限量',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),30 天内不限量,多约多省。'},
       calc:[['2 次全档通用(按 109 元课计)','值 ¥218'],['85 折不限量(30 天有效)','多约多省']],
       total:['权益价值 ¥218 起','实付仅 ¥179'],
-      rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','次卡每预约 1 人位扣 1 次;折扣卡不限量,30 天内不限次使用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','未使用随时退;已使用按已核销课程挂牌价核算,剩余退还']]}
+      rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','次卡每预约 1 人位扣 1 次;折扣卡不限量,30 天内不限次使用'],['使用顺序','先用次卡约课,2 次次卡用完后折扣卡自动解锁,次卡未用完时折扣卡不可用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','次卡全部用完后不支持退款;其余可退:退款=实付-时间折算(实付÷30×已持有天数)-已用次卡价值(每次取 实付÷2 与核销课挂牌价 较高者)-已用折扣卡优惠(挂牌价×15%),下限 ¥0']]}
   };
   function ensureEquityCardPage(){
     var phone=document.querySelector('.phone');
@@ -28353,7 +28353,7 @@ document.addEventListener('click', function(e){
     ['lite','plus','pro'].forEach(function(k){var q=EC_PRODUCTS[k];sw+='<div class="ec-sw-item'+(k===pid?' on':'')+'" onclick="renderEc(\''+k+'\')"><b>'+q.shortName+'</b><span>¥'+q.price+'</span></div>';});
     document.getElementById('ecSwitcher').innerHTML=sw;
     document.getElementById('ecHeroWrap').innerHTML='<div class="ec-hero"><div class="ec-hero-card">'+(p.tag?'<div class="ec-hero-tag">'+p.tag+'</div>':'')+'<div class="ec-hero-logo">SAVAGE</div><div class="ec-hero-price">¥'+p.price+(p.orig?'<del>¥'+p.orig+'</del>':'')+'</div><div class="ec-hero-name">'+p.name+'</div><div class="ec-hero-valid">有效期 30 天</div></div></div>';
-    document.getElementById('ecInfoWrap').innerHTML='<div class="ec-info-card"><div class="ec-info-price">售价 <b>¥'+p.price+'</b>'+(p.orig?'<del>原价 ¥'+p.orig+'</del>':'')+(p.saveTag?'<em>'+p.saveTag+'</em>':'')+'</div><div class="ec-info-meta"><span>每人限购 1 张</span><span>限量发售</span><span>未使用随时退</span></div></div>';
+    document.getElementById('ecInfoWrap').innerHTML='<div class="ec-info-card"><div class="ec-info-price">售价 <b>¥'+p.price+'</b>'+(p.orig?'<del>原价 ¥'+p.orig+'</del>':'')+(p.saveTag?'<em>'+p.saveTag+'</em>':'')+'</div><div class="ec-info-meta"><span>每人限购 1 张</span><span>限量发售</span><span>次卡未用完可退</span></div></div>';
     var calcRows='';p.calc.forEach(function(r){calcRows+='<div><span>'+r[0]+'</span><span>'+r[1]+'</span></div>';});
     document.getElementById('ecBeneWrap').innerHTML='<div class="ec-bene-card">'
       +'<div class="ec-bene"><div class="ec-bene-badge"><span class="n">'+p.bene1.n+'</span><span class="t">'+p.bene1.t+'</span></div><div class="ec-bene-info"><b>'+p.bene1.b+'<i>基础权益</i></b><span>'+p.bene1.s+'</span></div></div>'
@@ -28413,9 +28413,9 @@ document.addEventListener('click', function(e){
       +'<div class="ec-rf-row"><span class="lab">退款类型</span><span class="val sel">整卡退款</span></div>'
       +'<div class="ec-rf-row"><span class="lab">退款数量</span><span class="val sel">1</span></div>'
       +'</div>'
-      +'<div class="ec-rf-amt"><div class="ec-rf-amt-head" onclick="document.getElementById(\'ecRfAmtDetail\').classList.toggle(\'open\')"><span>退款金额</span><b>¥22.00<small>⌄</small></b></div>'
-      +'<div class="ec-rf-amt-detail" id="ecRfAmtDetail"><div><span>实付金额</span><span>¥111.00</span></div><div><span>次卡已核销 1 次(按 89 元课挂牌价扣减)</span><span>-¥89.00</span></div><div><span>折扣卡已用 0 次</span><span>不追回已享折扣</span></div><div><span>折扣卡未用 6 次</span><span>回收不退款</span></div><div><span><b>退款金额</b>(下限 ¥0)</span><span><b>¥22.00</b></span></div></div></div>'
-      +'<div class="ec-rf-note"><b>退款金额说明</b>1. 退款按「实付金额 − 已核销权益价值」核算,已核销次卡权益按实际核销课程挂牌价扣减。<br>2. 折扣卡已使用次数不追回已享折扣,未使用次数直接回收不退款。<br>3. 退款预计 1-3 个工作日原路退回(微信支付);退款成功后全部未使用权益(次卡/折扣卡)实时回收。<br>4. 存在待上课程预约时,须先取消预约方可申请退款。</div>'
+      +'<div class="ec-rf-amt"><div class="ec-rf-amt-head" onclick="document.getElementById(\'ecRfAmtDetail\').classList.toggle(\'open\')"><span>退款金额</span><b>¥18.30<small>⌄</small></b></div>'
+      +'<div class="ec-rf-amt-detail" id="ecRfAmtDetail"><div><span>实付金额</span><span>¥111.00</span></div><div><span>时间折算(已持有 1 天,¥111÷30×1)</span><span>-¥3.70</span></div><div><span>次卡已用 1 次(取 摊销 ¥55.50 与 89 元课挂牌价 较高者)</span><span>-¥89.00</span></div><div><span>折扣卡已用 0 次(按挂牌价×15% 扣回已享优惠)</span><span>-¥0.00</span></div><div><span><b>退款金额</b>(下限 ¥0)</span><span><b>¥18.30</b></span></div></div></div>'
+      +'<div class="ec-rf-note"><b>退款金额说明</b>1. 退款金额=实付金额-时间折算(实付÷有效期天数×已持有天数,支付当日为第 1 天)-已使用次卡价值-已使用折扣卡价值,下限 ¥0。<br>2. 已使用次卡价值:每次取「实付÷次卡次数」与「实际核销课程挂牌价」较高者扣减;次卡全部用完后不支持退款。<br>3. 已使用折扣卡按「核销课程挂牌价×(1-折扣力度)」扣回已享优惠,未使用次数直接回收不退款。<br>4. 退款预计 1-3 个工作日原路退回(微信支付),成功后全部未使用权益实时回收;有待上课程预约须先取消。</div>'
       +'</div>'
       +'<div class="ec-rf-bar"><button onclick="confirmEcRefund()">确定退款</button></div>'
       +'<div class="ec-toast" id="ecRfToast"></div>';
@@ -28459,7 +28459,7 @@ document.addEventListener('click', function(e){
     setTimeout(closeEcRefund,1400);
   };
 
-  /* 团课结算页：折扣卡弹窗（109 元课不可用，仅展示原因；抵扣走次卡弹窗） */
+  /* 团课结算页:折扣卡弹窗(次卡未用完不可用,仅展示原因;抵扣走次卡弹窗) */
   function ensureGcDcSheet(){
     var page=document.getElementById('groupCheckoutPage');
     if(!page || document.getElementById('gcDcMask')) return;
@@ -28471,9 +28471,9 @@ document.addEventListener('click', function(e){
       '<div class="gc-dc-sheet">'
       +'<div class="gc-dc-head"><span>选择折扣卡</span><button onclick="closeGcDcSheet()">×</button></div>'
       +'<div class="gc-dc-tabs"><button class="active" id="gcDcTabUsable" onclick="switchGcDcTab(\'usable\')">可使用（0）</button><button id="gcDcTabDisabled" onclick="switchGcDcTab(\'disabled\')">不可使用（1）</button></div>'
-      +'<div id="gcDcPanelUsable"><div class="gc-dc-empty">本课程暂无可用折扣卡</div></div>'
+      +'<div id="gcDcPanelUsable"><div class="gc-dc-empty">暂无可用折扣卡</div></div>'
       +'<div id="gcDcPanelDisabled" style="display:none">'
-      +'<div class="gc-dc-item muted"><div class="gc-dc-art">SAVAGE</div><div class="gc-dc-info"><b>85 折折扣卡（权益卡）</b><span>剩余：6 次 · 有效期至 2026年11月12日</span><span class="gc-dc-reason">本课程为 109 元课程，折扣卡仅可约 69 / 89 元课程</span></div></div>'
+      +'<div class="gc-dc-item muted"><div class="gc-dc-art">SAVAGE</div><div class="gc-dc-info"><b>85 折折扣卡（权益卡）</b><span>剩余：6 次 · 有效期至 2026年11月12日</span><span class="gc-dc-reason">次卡权益未用完（剩余 2 次），2 次次卡用完后自动解锁，结算立享 85 折</span></div></div>'
       +'</div>'
       +'<button class="gc-dc-confirm" onclick="closeGcDcSheet()">确定</button>'
       +'</div>';
