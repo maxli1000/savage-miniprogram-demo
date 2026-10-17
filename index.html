@@ -6275,7 +6275,7 @@
               <div class="ec-corner">新人立省¥38</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">双课轻享权益卡</div>
-              <div class="drop-desc">2次全档通用团课 + 6次常规团课85折</div>
+              <div class="drop-desc">2次常规团课(89/69) + 6次85折通用折扣</div>
               <div class="drop-foot">
                 <div class="drop-price">¥111<del>¥149</del></div>
                 <button class="drop-btn">去购买</button>
@@ -6285,7 +6285,7 @@
               <div class="ec-corner">不限量85折</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">全档畅练权益卡</div>
-              <div class="drop-desc">2次全档通用团课 + 全档85折不限量</div>
+              <div class="drop-desc">2次全档通用团课 + 85折不限量</div>
               <div class="drop-foot">
                 <div class="drop-price">¥179</div>
                 <button class="drop-btn">去购买</button>
@@ -6295,7 +6295,7 @@
               <div class="ec-corner">3张85折</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">轻量入门权益卡</div>
-              <div class="drop-desc">2次全档通用团课 + 3次69元课85折</div>
+              <div class="drop-desc">2次69元课团课 + 3次85折通用折扣</div>
               <div class="drop-foot">
                 <div class="drop-price">¥129</div>
                 <button class="drop-btn">去购买</button>
@@ -28247,23 +28247,23 @@ document.addEventListener('click', function(e){
   }
   function ecRule(k,v){return '<div class="pass-rule-row"><span>'+k+'</span><span>'+v+'</span></div>';}
 
-  /* 权益卡商品矩阵:统一 85 折 × 次卡 2 次全档,三档差异=折扣卡适用范围(向下兼容)× 数量(3/6/不限量) */
+  /* 权益卡商品矩阵:折扣卡统一「85折团课通用」;三档差异=次卡适用课程(向下兼容)× 折扣卡数量(3/6/不限量) */
   var EC_PRODUCTS={
     lite:{shortName:'轻量入门',name:'轻量入门权益卡',price:'129',orig:'',tag:'',saveTag:'',saveLine:'',
-      bene1:{n:'2 次',t:'全档通用',b:'全档通用团课次卡',s:'69 / 89 / 109 元课任意约,不用算价格带;想体验高阶课,直接约。'},
-      bene2:{n:'85 折',t:'× 3 次',b:'69 元课折扣卡',s:'仅约 69 元课,结算价立享 85 折(折后 ¥58.7)。'},
-      calc:[['2 次全档通用(按 109 元课计)','值 ¥218'],['3 次 85 折(按 69 元课计,最高省)','值 ¥31']],
-      total:['权益价值约 ¥249','实付仅 ¥129'],
+      bene1:{n:'2 次',t:'69 元课',b:'69 元课团课次卡',s:'可约 69 元课程,先上基础课找到感觉;想上 89 / 109 元课,用 85 折折扣卡约。'},
+      bene2:{n:'85 折',t:'× 3 次',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7)。'},
+      calc:[['2 次 69 元课次卡','值 ¥138'],['3 次 85 折通用(按 109 元课计,最高省)','值 ¥49']],
+      total:['权益价值约 ¥187','实付仅 ¥129'],
       rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','未使用随时退;已使用按已核销课程挂牌价核算,剩余退还']]},
     plus:{shortName:'双课轻享',name:'双课轻享权益卡',price:'111',orig:'149',tag:'双十一 · 新人价',saveTag:'新客立省 ¥38',saveLine:'已优惠:¥38',
-      bene1:{n:'2 次',t:'全档通用',b:'全档通用团课次卡',s:'69 / 89 / 109 元课任意约,不用算价格带;想体验高阶课,直接约。'},
-      bene2:{n:'85 折',t:'× 6 次',b:'常规团课折扣卡',s:'69 / 89 元课结算价立享 85 折(折后 ¥58.7 / ¥75.7),第 3 节课开始继续省。'},
-      calc:[['2 次全档通用(按 109 元课计)','值 ¥218'],['6 次 85 折(按 89 元课计,最高省)','值 ¥80']],
-      total:['权益价值约 ¥298','实付仅 ¥111'],
+      bene1:{n:'2 次',t:'89/69 元课',b:'常规团课次卡',s:'可约 89 / 69 元课程;想上 109 元高阶课,用 85 折折扣卡约。'},
+      bene2:{n:'85 折',t:'× 6 次',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),第 3 节课开始继续省。'},
+      calc:[['2 次常规团课次卡(按 89 元课计)','值 ¥178'],['6 次 85 折通用(按 109 元课计,最高省)','值 ¥98']],
+      total:['权益价值约 ¥276','实付仅 ¥111'],
       rules:[['适用人群','所有用户均可购买;¥111 新人价仅限新客(从未有支付成功订单),每人限购 1 张'],['新人价窗口','11 月 8 日 00:00 — 11 月 11 日 23:59,限量发售;窗口结束后恢复常态价 ¥149'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','未使用随时退;已使用按已核销课程挂牌价核算,剩余退还']]},
     pro:{shortName:'全档畅练',name:'全档畅练权益卡',price:'179',orig:'',tag:'',saveTag:'',saveLine:'',
       bene1:{n:'2 次',t:'全档通用',b:'全档通用团课次卡',s:'69 / 89 / 109 元课任意约,不用算价格带;想体验高阶课,直接约。'},
-      bene2:{n:'85 折',t:'不限量',b:'全档团课折扣卡',s:'69 / 89 / 109 元课结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),30 天内不限量,多约多省。'},
+      bene2:{n:'85 折',t:'不限量',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),30 天内不限量,多约多省。'},
       calc:[['2 次全档通用(按 109 元课计)','值 ¥218'],['85 折不限量(30 天有效)','多约多省']],
       total:['权益价值 ¥218 起','实付仅 ¥179'],
       rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','次卡每预约 1 人位扣 1 次;折扣卡不限量,30 天内不限次使用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','未使用随时退;已使用按已核销课程挂牌价核算,剩余退还']]}
@@ -28287,13 +28287,12 @@ document.addEventListener('click', function(e){
       +'<div class="ec-compare-card"><table class="ec-table">'
       +'<tr><th></th><th data-p="lite">轻量入门</th><th data-p="plus">双课轻享</th><th data-p="pro">全档畅练</th></tr>'
       +'<tr><td>价格</td><td data-p="lite">¥129</td><td data-p="plus">¥149<em>新人 ¥111</em></td><td data-p="pro">¥179</td></tr>'
-      +'<tr><td>全档通用次卡</td><td data-p="lite">2 次</td><td data-p="plus">2 次</td><td data-p="pro">2 次</td></tr>'
-      +'<tr><td>85 折折扣卡</td><td data-p="lite">3 次</td><td data-p="plus">6 次</td><td data-p="pro">不限量</td></tr>'
-      +'<tr><td>折扣适用范围</td><td data-p="lite">仅 69 元课</td><td data-p="plus">69 / 89 元课</td><td data-p="pro">69/89/109 全档</td></tr>'
+      +'<tr><td>团课次卡</td><td data-p="lite">2 次<em>仅 69 元课</em></td><td data-p="plus">2 次<em>89 / 69 元课</em></td><td data-p="pro">2 次<em>全档通用</em></td></tr>'
+      +'<tr><td>85 折通用折扣卡</td><td data-p="lite">3 次</td><td data-p="plus">6 次</td><td data-p="pro">不限量</td></tr>'
       +'<tr><td>有效期</td><td data-p="lite">30 天</td><td data-p="plus">30 天</td><td data-p="pro">30 天</td></tr>'
       +'<tr><td>适合谁</td><td data-p="lite">低价尝鲜</td><td data-p="plus">体验+续省</td><td data-p="pro">高频畅练</td></tr>'
       +'</table>'
-      +'<p style="font-size:10px;color:#909399;margin:8px 6px 2px;line-height:1.6">注:高价卡约课权限向下兼容——可约低价档适用的课程。</p></div>'
+      +'<p style="font-size:10px;color:#909399;margin:8px 6px 2px;line-height:1.6">注:折扣卡三档均为 85 折团课通用;次卡权限向下兼容——高价档可约低价档课程。</p></div>'
       +'<div class="pass-section-title">权益卡说明</div>'
       +'<div class="pass-rule-card" id="ecRulesWrap"></div>'
       +'<div class="pass-section-title">支付方式</div>'
