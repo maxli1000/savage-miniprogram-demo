@@ -6275,7 +6275,7 @@
               <div class="ec-corner">新人立省¥38</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">双课轻享权益卡</div>
-              <div class="drop-desc">2次常规团课(89/69) + 6次85折通用折扣</div>
+              <div class="drop-desc">2次常规团课(89/69) + 85折×6</div>
               <div class="drop-foot">
                 <div class="drop-price">¥111<del>¥149</del></div>
                 <button class="drop-btn">去购买</button>
@@ -6285,7 +6285,7 @@
               <div class="ec-corner">不限量85折</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">全档畅练权益卡</div>
-              <div class="drop-desc">2次全档通用团课 + 85折不限量</div>
+              <div class="drop-desc">2次全档团课 + 85折不限量</div>
               <div class="drop-foot">
                 <div class="drop-price">¥179</div>
                 <button class="drop-btn">去购买</button>
@@ -6295,7 +6295,7 @@
               <div class="ec-corner">3张85折</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">轻量入门权益卡</div>
-              <div class="drop-desc">2次69元课团课 + 3次85折通用折扣</div>
+              <div class="drop-desc">2次69元课 + 85折×3</div>
               <div class="drop-foot">
                 <div class="drop-price">¥129</div>
                 <button class="drop-btn">去购买</button>
@@ -28149,6 +28149,7 @@ document.addEventListener('click', function(e){
   /* 首页权益卡：沿用次卡卡面，光带换金色 */
   .ec-card:before,.ec-card:after{background:linear-gradient(90deg,#fff,#f2c47c,#7a5a1e)!important;}
   .ec-card{cursor:pointer;}
+  .ec-card .drop-desc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .ec-corner{position:absolute;top:12px;right:12px;z-index:2;font-size:9px;font-weight:900;color:#7a5a1e;background:linear-gradient(90deg,#ffe9c2,#f2c47c);border-radius:4px;padding:3px 7px;letter-spacing:1px;}
 
   /* 权益卡介绍购买页 */
