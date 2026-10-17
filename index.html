@@ -28381,7 +28381,7 @@ document.addEventListener('click', function(e){
   };
 
   /* ===== V112:权益卡订单详情 + 退款申请(入口唯一=订单详情;申请页结构对齐团课退款页) ===== */
-  var EC_RF_REASONS=['课程满员,未等候成功','临时有事,无法按时参加','行程/出差冲突','身体不适/受伤,暂时不能训练','赶不及到店','想换到其他时间/其他教练/其他门店','近期训练计划调整,不需要该课程了','价格不合适','重复下单/误操作下单','需要改用其他支付方式','其它原因'];
+  var EC_RF_REASONS=['重复下单/误操作购买','买错了,想买其他卡/套餐','价格不合适/发现更划算的购买方式','想约的课程一直满员,约不上','想上的课程不在卡适用范围','近期没时间上课(工作忙/出差/离开城市)','身体不适/受伤,暂时无法训练','课程/门店体验不符合预期','已开通会籍,权益卡用不上了','其他原因'];
   function ensureEcRefundPages(){
     var phone=document.querySelector('.phone');
     if(!phone || document.getElementById('ecOrderDetailPage')) return;
