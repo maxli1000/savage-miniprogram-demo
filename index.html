@@ -6272,17 +6272,17 @@
           <div class="home-section-sub">Equity Pass</div>
           <div class="home-h-scroll">
             <div class="drop-card ec-card" onclick="openEquityCard('plus')">
-              <div class="ec-corner">新人立省¥38</div>
+              <div class="ec-corner">热销</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">双课轻享权益卡</div>
-              <div class="drop-desc">2次常规团课(89/69) + 85折×6</div>
+              <div class="drop-desc">2次常规团课 + 85折不限量</div>
               <div class="drop-foot">
-                <div class="drop-price">¥111<del>¥149</del></div>
+                <div class="drop-price">¥149</div>
                 <button class="drop-btn">去购买</button>
               </div>
             </div>
             <div class="drop-card ec-card" onclick="openEquityCard('pro')">
-              <div class="ec-corner">不限量85折</div>
+              <div class="ec-corner">全档通用</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">全档畅练权益卡</div>
               <div class="drop-desc">2次全档团课 + 85折不限量</div>
@@ -6292,10 +6292,10 @@
               </div>
             </div>
             <div class="drop-card ec-card" onclick="openEquityCard('lite')">
-              <div class="ec-corner">3张85折</div>
+              <div class="ec-corner">低价尝鲜</div>
               <div class="drop-logo">SAVAGE</div>
               <div class="drop-name">轻量入门权益卡</div>
-              <div class="drop-desc">2次69元课 + 85折×3</div>
+              <div class="drop-desc">2次69元课 + 85折不限量</div>
               <div class="drop-foot">
                 <div class="drop-price">¥129</div>
                 <button class="drop-btn">去购买</button>
@@ -7458,6 +7458,7 @@
     <div><b>¥888</b><span>储值卡</span></div>
     <div><b>12<small>张</small></b><span>次卡</span></div>
     <div><b>3<small>张</small></b><span>优惠券</span></div>
+    <div><b id="mineDcCount">0<small>张</small></b><span>折扣卡</span></div>
   </div>
   <div class="mine-panel">
     <h3>我的订单</h3>
@@ -15289,7 +15290,7 @@ function setCalendarView(view){
   .mine-assets{
     min-height:82px;
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     align-items:center;
   }
   .mine-assets div{
@@ -17331,7 +17332,7 @@ document.addEventListener('click', function(e){
     {id:'done1',state:'已完成',tab:'completed',count:1,total:'¥240.00',payText:'订单详情',products:1},
     {id:'doneCamp',state:'已完成',tab:'completed',count:1,total:'¥1299.00',payText:'订单详情',products:1,productTitle:'4周燃脂挑战营',productTime:'11月6日-12月1日｜4周',productPrice:'¥1299.00'},
     {id:'done2',state:'已完成',tab:'completed',count:2,total:'¥240.00',payText:'订单详情',products:2},
-    {id:'ec:ecPlus',state:'已完成',tab:'completed',count:1,total:'¥111.00',payText:'订单详情',products:1,productTitle:'双课轻享权益卡',productTime:'2次常规团课(89/69) + 85折×6｜有效期30天',productPrice:'¥111.00'},
+    {id:'ec:ecPlus',state:'已完成',tab:'completed',count:1,total:'¥149.00',payText:'订单详情',products:1,productTitle:'双课轻享权益卡',productTime:'2次常规团课(89/69) + 85折不限量｜有效期30天',productPrice:'¥149.00'},
     {id:'refundDone',state:'退款完成',tab:'refund',count:1,total:'¥120.00',payText:'退款详情',products:1},
     {id:'refundCamp',state:'退款中',tab:'refund',count:1,total:'¥1299.00',payText:'退款详情',products:1,productTitle:'4周燃脂挑战营',productTime:'11月6日-12月1日｜4周',productPrice:'¥1299.00'},
     {id:'refundPending',state:'退款中',tab:'refund',count:1,total:'¥120.00',payText:'退款详情',products:1},
@@ -28261,6 +28262,58 @@ document.addEventListener('click', function(e){
   .ec-rsn-item.on .radio{border-color:#111622;background:radial-gradient(circle,#111622 45%,transparent 52%);}
   .ec-rsn-close{margin-top:14px;width:100%;height:44px;border:0;border-radius:22px;background:#111622;color:#fff;font-size:14px;font-weight:700;}
 
+  /* V116:购买页开卡门店选择(样式对齐会籍开卡弹层) */
+  .ec-store-row{margin:0 12px 12px;background:#fff;border-radius:10px;padding:15px 12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;cursor:pointer;}
+  .ec-store-row>span{font-weight:700;color:#171923;}
+  .ec-store-row em{font-style:normal;font-size:13px;color:#8b929d;}
+  .ec-store-mask{position:absolute;inset:0;z-index:1450;display:none;background:rgba(0,0,0,.5);}
+  .ec-store-mask.show{display:block;}
+  .ec-store-sheet{position:absolute;left:0;right:0;bottom:0;height:72%;background:#fff;border-radius:14px 14px 0 0;display:flex;flex-direction:column;padding:18px 0 0;}
+  .ec-store-head{padding:0 16px 12px;border-bottom:1px solid #f5f6f8;position:relative;}
+  .ec-store-head b{font-size:17px;display:block;}
+  .ec-store-head span{font-size:12px;color:#8b929d;display:block;margin-top:5px;}
+  .ec-store-head button{position:absolute;right:12px;top:0;border:0;background:transparent;font-size:20px;color:#8b929d;}
+  .ec-store-body{flex:1;display:flex;overflow:hidden;}
+  .ec-store-citys{flex:none;width:86px;background:#f7f8fa;overflow-y:auto;}
+  .ec-store-city{padding:16px 0;text-align:center;font-size:14px;color:#4c5563;cursor:pointer;}
+  .ec-store-city.on{background:#fff;font-weight:800;color:#111622;}
+  .ec-store-list{flex:1;overflow-y:auto;padding:14px 14px 20px;}
+  .ec-store-item{display:block;width:100%;margin-bottom:10px;padding:13px 10px;border:1px solid #e4e7ed;border-radius:9px;background:#fff;font-size:14px;color:#171923;text-align:center;cursor:pointer;}
+  .ec-store-item.on{background:#111622;border-color:#111622;color:#fff;font-weight:700;}
+  .ec-store-foot{padding:10px 14px 22px;border-top:1px solid #f5f6f8;}
+  .ec-store-foot button{width:100%;height:46px;border:0;border-radius:23px;background:#111622;color:#fff;font-size:15px;font-weight:700;}
+
+  /* V119:支付成功页 + 折扣卡资产页 */
+  .ec-ps-hero{margin:12px;background:#fff;border-radius:12px;padding:34px 14px 26px;text-align:center;}
+  .ec-ps-check{width:56px;height:56px;margin:0 auto 14px;border-radius:50%;background:#111622;color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center;}
+  .ec-ps-hero b{font-size:19px;display:block;}
+  .ec-ps-hero span{font-size:13px;color:#8b929d;display:block;margin-top:8px;}
+  .ec-ps-card{margin:12px;background:#fff;border-radius:12px;padding:14px;}
+  .ec-ps-title{font-size:14px;font-weight:800;margin-bottom:6px;}
+  .ec-ps-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;font-size:13px;color:#4c5563;}
+  .ec-ps-row+.ec-ps-row{border-top:1px solid #f5f6f8;}
+  .ec-ps-row b{color:#171923;}
+  .ec-ps-tip{margin:0 14px;font-size:11px;color:#ba7a55;background:#faf0e2;border-radius:8px;padding:9px 12px;}
+  .ec-ps-bar{position:absolute;left:0;right:0;bottom:0;padding:10px 14px 22px;display:flex;gap:10px;background:#fff;}
+  .ec-ps-bar button{flex:1;height:46px;border-radius:23px;font-size:15px;font-weight:700;border:0;cursor:pointer;}
+  .ec-ps-bar .p{background:#111622;color:#fff;}
+  .ec-ps-bar .s{background:#fff;color:#111622;border:1px solid #111622;}
+  .ec-dc-card{margin:12px;border-radius:12px;background:linear-gradient(135deg,#171a21,#050506);color:#fff;padding:16px 14px;position:relative;}
+  .ec-dc-card .src{position:absolute;right:12px;top:12px;font-size:10px;color:#f2c47c;border:1px solid rgba(242,196,124,.5);border-radius:3px;padding:2px 6px;}
+  .ec-dc-name{font-size:11px;letter-spacing:1px;color:#c8cdd6;}
+  .ec-dc-main{display:flex;align-items:baseline;gap:14px;margin:10px 0 8px;}
+  .ec-dc-main .rate{font-size:30px;font-weight:900;color:#f2c47c;}
+  .ec-dc-main .times{font-size:15px;font-weight:700;}
+  .ec-dc-scope{font-size:12px;color:#c8cdd6;}
+  .ec-dc-valid{font-size:11px;color:#8b929d;margin-top:4px;}
+  .ec-dc-lock{margin-top:12px;background:rgba(255,255,255,.08);border-radius:8px;padding:9px 11px;font-size:12px;color:#f2c47c;}
+  .ec-dc-note{margin:12px;color:#8b929d;font-size:11px;line-height:1.9;}
+  .ec-dc-empty{margin:64px 12px 0;text-align:center;}
+  .ec-dc-empty-art{width:84px;height:84px;margin:0 auto 16px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;color:#c9cfd9;}
+  .ec-dc-empty b{font-size:16px;display:block;color:#171923;}
+  .ec-dc-empty span{font-size:12px;color:#8b929d;display:block;margin:8px 0 20px;}
+  .ec-dc-empty button{height:44px;padding:0 34px;border:0;border-radius:22px;background:#111622;color:#fff;font-size:14px;font-weight:700;cursor:pointer;}
+
   /* 团课结算页：选择权益卡弹窗 */
   .gc-dc-mask{position:absolute;inset:0;z-index:20;display:none;background:rgba(0,0,0,.58);align-items:flex-end;}
   .gc-dc-mask.show{display:flex;}
@@ -28295,16 +28348,16 @@ document.addEventListener('click', function(e){
   var EC_PRODUCTS={
     lite:{shortName:'轻量入门',name:'轻量入门权益卡',price:'129',orig:'',tag:'',saveTag:'',saveLine:'',
       bene1:{n:'2 次',t:'69 元课',b:'69 元课团课次卡',s:'可约 69 元课程,先上基础课找到感觉;想上 89 / 109 元课,用 85 折折扣卡约。'},
-      bene2:{n:'85 折',t:'× 3 次',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7)。'},
-      calc:[['2 次 69 元课次卡','值 ¥138'],['3 次 85 折通用(按 109 元课计,最高省)','值 ¥49']],
-      total:['权益价值约 ¥187','实付仅 ¥129'],
-      rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用顺序','先用权益包次卡约课,2 次次卡用完后折扣卡自动解锁,权益包次卡未用完时折扣卡不可用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','次卡全部用完后不支持退款;其余可退:退款=实付-时间折算(实付÷30×已持有天数)-已用次卡价值(每次取 实付÷2 与核销课挂牌价 较高者)-已用折扣卡优惠(挂牌价×15%),下限 ¥0']]},
-    plus:{shortName:'双课轻享',name:'双课轻享权益卡',price:'111',orig:'149',tag:'双十一 · 新人价',saveTag:'新客立省 ¥38',saveLine:'已优惠:¥38',
+      bene2:{n:'85 折',t:'不限量',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7)。'},
+      calc:[['2 次 69 元课次卡','值 ¥138'],['85 折不限量(30 天有效)','多约多省']],
+      total:['权益价值 ¥138 起','实付仅 ¥129'],
+      rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','次卡每预约 1 人位扣 1 次;折扣卡不限量,30 天内不限次使用'],['使用顺序','先用权益包次卡约课,2 次次卡用完后折扣卡自动解锁,权益包次卡未用完时折扣卡不可用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','次卡全部用完后不支持退款;其余可退:退款=实付-时间折算(实付÷30×已持有天数)-已用次卡价值(每次取 实付÷2 与核销课挂牌价 较高者)-已用折扣卡优惠(挂牌价×15%),下限 ¥0']]},
+    plus:{shortName:'双课轻享',name:'双课轻享权益卡',price:'149',orig:'',tag:'',saveTag:'',saveLine:'',
       bene1:{n:'2 次',t:'89/69 元课',b:'常规团课次卡',s:'可约 89 / 69 元课程;想上 109 元高阶课,用 85 折折扣卡约。'},
-      bene2:{n:'85 折',t:'× 6 次',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),第 3 节课开始继续省。'},
-      calc:[['2 次常规团课次卡(按 89 元课计)','值 ¥178'],['6 次 85 折通用(按 109 元课计,最高省)','值 ¥98']],
-      total:['权益价值约 ¥276','实付仅 ¥111'],
-      rules:[['适用人群','所有用户均可购买;¥111 新人价仅限新客(从未有支付成功订单),每人限购 1 张'],['新人价窗口','11 月 8 日 00:00 — 11 月 11 日 23:59,限量发售;窗口结束后恢复常态价 ¥149'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','每成功使用次卡/折扣卡预约 1 人位课程扣 1 次'],['使用顺序','先用权益包次卡约课,2 次次卡用完后折扣卡自动解锁,权益包次卡未用完时折扣卡不可用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','次卡全部用完后不支持退款;其余可退:退款=实付-时间折算(实付÷30×已持有天数)-已用次卡价值(每次取 实付÷2 与核销课挂牌价 较高者)-已用折扣卡优惠(挂牌价×15%),下限 ¥0']]},
+      bene2:{n:'85 折',t:'不限量',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),第 3 节课开始继续省。'},
+      calc:[['2 次常规团课次卡(按 89 元课计)','值 ¥178'],['85 折不限量(30 天有效)','多约多省']],
+      total:['权益价值 ¥178 起','实付仅 ¥149'],
+      rules:[['适用人群','所有用户均可购买,每人限购 1 张'],['使用时效','自购买当日起生效,30 天内有效,可预约有效期内课程'],['扣次规则','次卡每预约 1 人位扣 1 次;折扣卡不限量,30 天内不限次使用'],['使用顺序','先用权益包次卡约课,2 次次卡用完后折扣卡自动解锁,权益包次卡未用完时折扣卡不可用'],['使用限制','不可转赠、不可与其他优惠券叠加、不可叠加会员折扣'],['退款规则','次卡全部用完后不支持退款;其余可退:退款=实付-时间折算(实付÷30×已持有天数)-已用次卡价值(每次取 实付÷2 与核销课挂牌价 较高者)-已用折扣卡优惠(挂牌价×15%),下限 ¥0']]},
     pro:{shortName:'全档畅练',name:'全档畅练权益卡',price:'179',orig:'',tag:'',saveTag:'',saveLine:'',
       bene1:{n:'2 次',t:'全档通用',b:'全档通用团课次卡',s:'69 / 89 / 109 元课任意约,不用算价格带;想体验高阶课,直接约。'},
       bene2:{n:'85 折',t:'不限量',b:'团课通用折扣卡',s:'69 / 89 / 109 元课通用,结算价立享 85 折(折后 ¥58.7 / ¥75.7 / ¥92.7),30 天内不限量,多约多省。'},
@@ -28330,25 +28383,72 @@ document.addEventListener('click', function(e){
       +'<div class="pass-section-title">权益卡对比</div>'
       +'<div class="ec-compare-card"><table class="ec-table">'
       +'<tr><th></th><th data-p="lite">轻量入门</th><th data-p="plus">双课轻享</th><th data-p="pro">全档畅练</th></tr>'
-      +'<tr><td>价格</td><td data-p="lite">¥129</td><td data-p="plus">¥149<em>新人 ¥111</em></td><td data-p="pro">¥179</td></tr>'
+      +'<tr><td>价格</td><td data-p="lite">¥129</td><td data-p="plus">¥149</td><td data-p="pro">¥179</td></tr>'
       +'<tr><td>团课次卡</td><td data-p="lite">2 次<em>仅 69 元课</em></td><td data-p="plus">2 次<em>89 / 69 元课</em></td><td data-p="pro">2 次<em>全档通用</em></td></tr>'
-      +'<tr><td>85 折通用折扣卡</td><td data-p="lite">3 次</td><td data-p="plus">6 次</td><td data-p="pro">不限量</td></tr>'
+      +'<tr><td>85 折通用折扣卡</td><td data-p="lite">不限量</td><td data-p="plus">不限量</td><td data-p="pro">不限量</td></tr>'
       +'<tr><td>有效期</td><td data-p="lite">30 天</td><td data-p="plus">30 天</td><td data-p="pro">30 天</td></tr>'
       +'<tr><td>适合谁</td><td data-p="lite">低价尝鲜</td><td data-p="plus">体验+续省</td><td data-p="pro">高频畅练</td></tr>'
       +'</table>'
-      +'<p style="font-size:10px;color:#909399;margin:8px 6px 2px;line-height:1.6">注:折扣卡三档均为 85 折团课通用;次卡权限向下兼容——高价档可约低价档课程。</p></div>'
+      +'<p style="font-size:10px;color:#909399;margin:8px 6px 2px;line-height:1.6">注:折扣卡三档均为 85 折团课通用、不限量;次卡权限向下兼容——高价档可约低价档课程。</p></div>'
       +'<div class="pass-section-title">权益卡说明</div>'
       +'<div class="pass-rule-card" id="ecRulesWrap"></div>'
+      +'<div class="pass-section-title">开卡门店</div>'
+      +'<div class="ec-store-row" onclick="openEcStore()"><span>▣ 开卡门店</span><em id="ecStoreVal">西单老佛爷店 · 距您最近 ›</em></div>'
       +'<div class="pass-section-title">支付方式</div>'
       +'<div class="ec-pay-card"><div class="ec-pay-row"><div class="ec-pay-icon">微</div><div><b>微信支付</b><span>使用微信完成本次支付</span></div><div class="ec-pay-check">✓</div></div></div>'
       +'</div>'
       +'<div class="ec-buy-bar" id="ecBuyBar"></div>'
       +'<div class="ec-toast" id="ecToast">支付成功,权益卡已到账</div>';
     phone.appendChild(page);
+    /* V116:开卡门店选择弹层(默认距您最近,可改选;仅记录归属) */
+    var sm=document.createElement('div');
+    sm.id='ecStoreMask';
+    sm.className='ec-store-mask';
+    sm.innerHTML='<div class="ec-store-sheet"><div class="ec-store-head"><b>开卡门店</b><span>仅用于记录开卡归属,不影响权益卡使用范围</span><button onclick="closeEcStore()">×</button></div><div class="ec-store-body"><div class="ec-store-citys" id="ecStoreCitys"></div><div class="ec-store-list" id="ecStoreList"></div></div><div class="ec-store-foot"><button onclick="confirmEcStore()">确认</button></div></div>';
+    sm.onclick=function(e){if(e.target===sm) closeEcStore();};
+    phone.appendChild(sm);
+    /* V119:支付成功页(整页;权益到账明细+去约课/查看资产) */
+    var ps=document.createElement('section');
+    ps.id='ecPaySuccessPage';
+    ps.className='asset-page';
+    ps.innerHTML='<div class="asset-scroll">'
+      +ecTopBar('支付结果','closeEcPaySuccess()')
+      +'<div class="ec-ps-hero"><div class="ec-ps-check">✓</div><b>支付成功</b><span id="ecPsAmt">实付 ¥149.00</span></div>'
+      +'<div class="ec-ps-card"><div class="ec-ps-title">权益已到账</div>'
+      +'<div class="ec-ps-row"><span id="ecPsPassName">▧ 常规团课次卡</span><b>2 次</b></div>'
+      +'<div class="ec-ps-row"><span>▥ 85 折折扣卡(团课通用)</span><b>不限次</b></div>'
+      +'<div class="ec-ps-row"><span>有效期</span><b id="ecPsValid">至 2026.11.16</b></div>'
+      +'<div class="ec-ps-row"><span>开卡门店</span><b id="ecPsStore">西单老佛爷店</b></div>'
+      +'</div>'
+      +'<div class="ec-ps-tip">折扣卡将在 2 次次卡用完后自动解锁,解锁后约课立享 85 折</div>'
+      +'</div>'
+      +'<div class="ec-ps-bar"><button class="p" onclick="ecPsGoBook()">去约课</button><button class="s" onclick="ecPsGoAsset()">查看我的资产</button></div>';
+    phone.appendChild(ps);
+    /* V119:折扣卡资产页(我的资产第四格;未购空态/已购状态卡 两态) */
+    var da=document.createElement('section');
+    da.id='ecDcAssetPage';
+    da.className='asset-page';
+    da.innerHTML='<div class="asset-scroll">'
+      +ecTopBar('折扣卡','closeEcDcAsset()')
+      +'<div id="ecDcOwnedWrap" style="display:none">'
+      +'<div class="ec-dc-card"><span class="src">权益卡</span><div class="ec-dc-name">SAVAGE 折扣卡</div>'
+      +'<div class="ec-dc-main"><span class="rate">85 折</span><span class="times">不限次</span></div>'
+      +'<div class="ec-dc-scope">69 / 89 / 109 元团课通用 · 不可叠加券与会员折扣</div>'
+      +'<div class="ec-dc-valid">有效期至 2026.11.12</div>'
+      +'<div class="ec-dc-lock">🔒 待解锁:权益包次卡剩余 2 次,用完后自动解锁</div>'
+      +'</div>'
+      +'<div class="ec-dc-note"><b style="display:block;font-size:13px;color:#171923;margin-bottom:4px;">使用说明</b>1. 权益包 2 次次卡用完后自动解锁,约课结算页选择折扣卡即享 85 折。<br>2. 不限次:30 天有效期内不限使用次数。<br>3. 每成功预约 1 人位按折后价收款;不可转赠、不可叠加其他优惠。</div>'
+      +'</div>'
+      +'<div id="ecDcEmptyWrap">'
+      +'<div class="ec-dc-empty"><div class="ec-dc-empty-art">▥</div><b>还没有折扣卡</b><span>购买权益卡,次卡用完后约课立享 85 折</span><button onclick="ecDcGoBuy()">去购买权益卡</button></div>'
+      +'</div>'
+      +'</div>';
+    phone.appendChild(da);
   }
   window.renderEc=function(pid){
     var p=EC_PRODUCTS[pid];
     if(!p){pid='plus';p=EC_PRODUCTS.plus;}
+    window.ecCurPid=pid;
     var sw='';
     ['lite','plus','pro'].forEach(function(k){var q=EC_PRODUCTS[k];sw+='<div class="ec-sw-item'+(k===pid?' on':'')+'" onclick="renderEc(\''+k+'\')"><b>'+q.shortName+'</b><span>¥'+q.price+'</span></div>';});
     document.getElementById('ecSwitcher').innerHTML=sw;
@@ -28374,11 +28474,87 @@ document.addEventListener('click', function(e){
     if(page) page.classList.remove('active');
   };
   window.payEquityCard=function(){
-    var toast=document.getElementById('ecToast');
-    if(!toast) return;
-    toast.classList.add('show');
-    setTimeout(function(){toast.classList.remove('show');},1800);
+    var p=EC_PRODUCTS[window.ecCurPid||'plus'];
+    window.ecDcOwned=true;
+    var mc=document.getElementById('mineDcCount');
+    if(mc) mc.innerHTML='1<small>张</small>';
+    var amt=document.getElementById('ecPsAmt');
+    if(amt) amt.textContent='实付 ¥'+p.price+'.00';
+    var bn=document.getElementById('ecPsPassName');
+    if(bn) bn.textContent='▧ '+p.bene1.b;
+    var st=document.getElementById('ecPsStore');
+    if(st) st.textContent=ecStoreCur.store;
+    var va=document.getElementById('ecPsValid');
+    if(va){var d=new Date(Date.now()+30*864e5);va.textContent='至 '+d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2);}
+    var pg=document.getElementById('ecPaySuccessPage');
+    if(pg) pg.classList.add('active');
   };
+
+  /* V116:开卡门店数据与交互(仅实体门店;虚拟店不作开卡归属) */
+  var EC_STORES=[['北京',['世纪财富中心店','双井富力广场店','中关村领展店','三里屯店','嘉里中心店','西单老佛爷店','望京利星行店']],['上海',['中海环宇荟店','ONE Shanghai店','巴黎春天淮海店','中信泰富店','长宁来福士店']],['深圳',['领展中心城店','平安财险店','嘉乐道店']]];
+  var EC_STORE_NEAR={city:'北京',store:'西单老佛爷店'};
+  var ecStoreCur={city:'北京',store:'西单老佛爷店'};
+  var ecStoreTmp={city:'北京',store:'西单老佛爷店'};
+  function renderEcStores(){
+    var cs=document.getElementById('ecStoreCitys'),ls=document.getElementById('ecStoreList');
+    if(!cs||!ls) return;
+    var ch='';
+    EC_STORES.forEach(function(c){ch+='<div class="ec-store-city'+(c[0]===ecStoreTmp.city?' on':'')+'" onclick="pickEcStoreCity(\''+c[0]+'\')">'+c[0]+'</div>';});
+    cs.innerHTML=ch;
+    var stores=[];EC_STORES.forEach(function(c){if(c[0]===ecStoreTmp.city) stores=c[1];});
+    var sh='';
+    stores.forEach(function(s){sh+='<button class="ec-store-item'+(s===ecStoreTmp.store?' on':'')+'" onclick="pickEcStore(\''+s+'\')">'+s+'</button>';});
+    ls.innerHTML=sh;
+  }
+  window.openEcStore=function(){
+    ensureEquityCardPage();
+    ecStoreTmp={city:ecStoreCur.city,store:ecStoreCur.store};
+    renderEcStores();
+    document.getElementById('ecStoreMask').classList.add('show');
+  };
+  window.closeEcStore=function(){document.getElementById('ecStoreMask').classList.remove('show');};
+  window.pickEcStoreCity=function(c){
+    var stores=[];EC_STORES.forEach(function(x){if(x[0]===c) stores=x[1];});
+    ecStoreTmp={city:c,store:stores[0]};
+    renderEcStores();
+  };
+  window.pickEcStore=function(s){ecStoreTmp.store=s;renderEcStores();};
+  window.confirmEcStore=function(){
+    ecStoreCur={city:ecStoreTmp.city,store:ecStoreTmp.store};
+    var near=(ecStoreCur.city===EC_STORE_NEAR.city&&ecStoreCur.store===EC_STORE_NEAR.store);
+    document.getElementById('ecStoreVal').textContent=ecStoreCur.store+(near?' · 距您最近':'')+' ›';
+    closeEcStore();
+  };
+
+  /* V119:支付成功页 / 折扣卡资产页 交互 */
+  window.closeEcPaySuccess=function(){document.getElementById('ecPaySuccessPage').classList.remove('active');};
+  window.ecPsGoBook=function(){
+    closeEcPaySuccess();
+    closeEquityCard();
+  };
+  window.ecPsGoAsset=function(){
+    closeEcPaySuccess();
+    closeEquityCard();
+    if(typeof window.showMinePage==='function') window.showMinePage();
+  };
+  window.openEcDcAsset=function(){
+    ensureEquityCardPage();
+    var owned=window.ecDcOwned===true;
+    document.getElementById('ecDcOwnedWrap').style.display=owned?'':'none';
+    document.getElementById('ecDcEmptyWrap').style.display=owned?'none':'';
+    document.getElementById('ecDcAssetPage').classList.add('active');
+  };
+  window.closeEcDcAsset=function(){document.getElementById('ecDcAssetPage').classList.remove('active');};
+  window.ecDcGoBuy=function(){
+    closeEcDcAsset();
+    openEquityCard('plus');
+  };
+  function bindEcDcEntrance(){
+    document.querySelectorAll('#minePage .mine-assets > div').forEach(function(item){
+      if((item.textContent||'').indexOf('折扣卡')>-1){item.onclick=openEcDcAsset;item.style.cursor='pointer';}
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindEcDcEntrance);}else{bindEcDcEntrance();}
 
   /* ===== V112:权益卡订单详情 + 退款申请(入口唯一=订单详情;申请页结构对齐团课退款页) ===== */
   var EC_RF_REASONS=['重复下单/误操作购买','买错了,想买其他卡/套餐','价格不合适/发现更划算的购买方式','想约的课程一直满员,约不上','想上的课程不在卡适用范围','近期没时间上课(工作忙/出差/离开城市)','身体不适/受伤,暂时无法训练','课程/门店体验不符合预期','已开通会籍,权益卡用不上了','其他原因'];
@@ -28394,9 +28570,9 @@ document.addEventListener('click', function(e){
       +'<div class="mod-nav"><div class="mod-left"><button type="button" onclick="closeEcOrderDetail()">‹</button><button type="button" onclick="closeEcOrderDetail(true)">⌂</button></div><div class="mod-title">订单详情</div><div class="mod-capsule"><span>•••</span><span class="mod-capsule-dot"></span></div></div>'
       +'<div class="mod-hero"><h2 class="mod-state-title">已完成</h2><div class="mod-state-desc"></div>'
       +'<div class="mod-store-card"><div class="mod-store">SAVAGE · 权益卡</div>'
-      +'<div class="mod-product"><div class="mod-avatar" style="background:linear-gradient(135deg,#171a21,#050506);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;">SAVAGE</div><div><div class="mod-product-title">双课轻享权益卡</div><div class="mod-product-time">2次常规团课(89/69) + 6次85折通用折扣<br>有效期至 2026.11.12</div></div><div class="mod-price">¥111.00<span>x1</span><button class="mo-btn" type="button" style="margin-top:8px;min-width:64px;height:26px;font-size:11px;" onclick="openEcRefund()">申请退款</button></div></div>'
+      +'<div class="mod-product"><div class="mod-avatar" style="background:linear-gradient(135deg,#171a21,#050506);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;">SAVAGE</div><div><div class="mod-product-title">双课轻享权益卡</div><div class="mod-product-time">2次常规团课(89/69) + 85折不限量折扣<br>有效期至 2026.11.12</div></div><div class="mod-price">¥149.00<span>x1</span><button class="mo-btn" type="button" style="margin-top:8px;min-width:64px;height:26px;font-size:11px;" onclick="openEcRefund()">申请退款</button></div></div>'
       +'</div></div>'
-      +'<section class="mod-card" style="padding:14px;"><div class="refund-info-row"><span>商品价格</span><b>¥149.00</b></div><div class="refund-info-row"><span>新人价优惠</span><b>-¥38.00</b></div><div class="refund-info-row"><span>实付款</span><b>¥111.00</b></div></section>'
+      +'<section class="mod-card" style="padding:14px;"><div class="refund-info-row"><span>商品价格</span><b>¥149.00</b></div><div class="refund-info-row"><span>实付款</span><b>¥149.00</b></div></section>'
       +'<section class="mod-card" style="padding:14px;"><div class="refund-info-row"><span>订单编号</span><b>T2610171556125435800099</b></div><div class="refund-info-row"><span>下单时间</span><b>2026-10-17 15:56:12</b></div><div class="refund-info-row"><span>支付时间</span><b>2026-10-17 15:56:18</b></div><div class="refund-info-row"><span>支付方式</span><b>微信支付</b></div><div class="refund-info-row"><span>交易流水号</span><b>4500000573202610173567722202</b></div></section>'
       +'</div>';
     phone.appendChild(od);
@@ -28406,15 +28582,15 @@ document.addEventListener('click', function(e){
     rf.className='ec-rf-page';
     rf.innerHTML='<div class="ec-rf-scroll">'
       +ecTopBar('申请退款','closeEcRefund()')
-      +'<div class="ec-rf-prod"><div class="ec-rf-art">SAVAGE</div><div><b>双课轻享权益卡</b><span>2次常规团课(89/69) + 6次85折通用折扣</span></div></div>'
-      +'<div class="ec-rf-stats"><div>8<span>权益总次数</span></div><div>1<span>已使用</span></div><div>7<span>剩余</span></div></div>'
+      +'<div class="ec-rf-prod"><div class="ec-rf-art">SAVAGE</div><div><b>双课轻享权益卡</b><span>2次常规团课(89/69) + 85折不限量折扣</span></div></div>'
+      +'<div class="ec-rf-stats"><div>2<span>次卡总次数</span></div><div>1<span>已使用</span></div><div>1<span>剩余</span></div></div>'
       +'<div class="ec-rf-form">'
       +'<div class="ec-rf-row" onclick="openEcReason()" style="cursor:pointer"><span class="lab">退款原因<i>*</i></span><span class="val" id="ecRfReasonVal">请选择原因 ›</span></div>'
       +'<div class="ec-rf-row"><span class="lab">退款类型</span><span class="val sel">整卡退款</span></div>'
       +'<div class="ec-rf-row"><span class="lab">退款数量</span><span class="val sel">1</span></div>'
       +'</div>'
-      +'<div class="ec-rf-amt"><div class="ec-rf-amt-head" onclick="document.getElementById(\'ecRfAmtDetail\').classList.toggle(\'open\')"><span>退款金额</span><b>¥18.30<small>⌄</small></b></div>'
-      +'<div class="ec-rf-amt-detail" id="ecRfAmtDetail"><div><span>实付金额</span><span>¥111.00</span></div><div><span>时间折算(已持有 1 天,¥111÷30×1)</span><span>-¥3.70</span></div><div><span>次卡已用 1 次(取 摊销 ¥55.50 与 89 元课挂牌价 较高者)</span><span>-¥89.00</span></div><div><span>折扣卡已用 0 次(按挂牌价×15% 扣回已享优惠)</span><span>-¥0.00</span></div><div><span><b>退款金额</b>(下限 ¥0)</span><span><b>¥18.30</b></span></div></div></div>'
+      +'<div class="ec-rf-amt"><div class="ec-rf-amt-head" onclick="document.getElementById(\'ecRfAmtDetail\').classList.toggle(\'open\')"><span>退款金额</span><b>¥55.03<small>⌄</small></b></div>'
+      +'<div class="ec-rf-amt-detail" id="ecRfAmtDetail"><div><span>实付金额</span><span>¥149.00</span></div><div><span>时间折算(已持有 1 天,¥149÷30×1)</span><span>-¥4.97</span></div><div><span>次卡已用 1 次(取 摊销 ¥74.50 与 89 元课挂牌价 较高者)</span><span>-¥89.00</span></div><div><span>折扣卡已用 0 次(按挂牌价×15% 扣回已享优惠)</span><span>-¥0.00</span></div><div><span><b>退款金额</b>(下限 ¥0)</span><span><b>¥55.03</b></span></div></div></div>'
       +'<div class="ec-rf-note"><b>退款金额说明</b>1. 退款金额=实付金额-时间折算(实付÷有效期天数×已持有天数,支付当日为第 1 天)-已使用次卡价值-已使用折扣卡价值,下限 ¥0。<br>2. 已使用次卡价值:每次取「实付÷次卡次数」与「实际核销课程挂牌价」较高者扣减;次卡全部用完后不支持退款。<br>3. 已使用折扣卡按「核销课程挂牌价×(1-折扣力度)」扣回已享优惠,未使用次数直接回收不退款。<br>4. 退款预计 1-3 个工作日原路退回(微信支付),成功后全部未使用权益实时回收;有待上课程预约须先取消。</div>'
       +'</div>'
       +'<div class="ec-rf-bar"><button onclick="confirmEcRefund()">确定退款</button></div>'
@@ -28473,7 +28649,7 @@ document.addEventListener('click', function(e){
       +'<div class="gc-dc-tabs"><button class="active" id="gcDcTabUsable" onclick="switchGcDcTab(\'usable\')">可使用（0）</button><button id="gcDcTabDisabled" onclick="switchGcDcTab(\'disabled\')">不可使用（1）</button></div>'
       +'<div id="gcDcPanelUsable"><div class="gc-dc-empty">暂无可用折扣卡</div></div>'
       +'<div id="gcDcPanelDisabled" style="display:none">'
-      +'<div class="gc-dc-item muted"><div class="gc-dc-art">SAVAGE</div><div class="gc-dc-info"><b>85 折折扣卡（权益卡）</b><span>剩余：6 次 · 有效期至 2026年11月12日</span><span class="gc-dc-reason">权益包次卡未用完（剩余 2 次），2 次次卡用完后自动解锁，结算立享 85 折</span></div></div>'
+      +'<div class="gc-dc-item muted"><div class="gc-dc-art">SAVAGE</div><div class="gc-dc-info"><b>85 折折扣卡（权益卡）</b><span>不限量 · 有效期至 2026年11月12日</span><span class="gc-dc-reason">权益包次卡未用完（剩余 2 次），2 次次卡用完后自动解锁，结算立享 85 折</span></div></div>'
       +'</div>'
       +'<button class="gc-dc-confirm" onclick="closeGcDcSheet()">确定</button>'
       +'</div>';
