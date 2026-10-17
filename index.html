@@ -17331,6 +17331,7 @@ document.addEventListener('click', function(e){
     {id:'done1',state:'已完成',tab:'completed',count:1,total:'¥240.00',payText:'订单详情',products:1},
     {id:'doneCamp',state:'已完成',tab:'completed',count:1,total:'¥1299.00',payText:'订单详情',products:1,productTitle:'4周燃脂挑战营',productTime:'11月6日-12月1日｜4周',productPrice:'¥1299.00'},
     {id:'done2',state:'已完成',tab:'completed',count:2,total:'¥240.00',payText:'订单详情',products:2},
+    {id:'ec:ecPlus',state:'已完成',tab:'completed',count:1,total:'¥111.00',payText:'订单详情',products:1,productTitle:'双课轻享权益卡',productTime:'2次常规团课(89/69) + 85折×6｜有效期30天',productPrice:'¥111.00'},
     {id:'refundDone',state:'退款完成',tab:'refund',count:1,total:'¥120.00',payText:'退款详情',products:1},
     {id:'refundCamp',state:'退款中',tab:'refund',count:1,total:'¥1299.00',payText:'退款详情',products:1,productTitle:'4周燃脂挑战营',productTime:'11月6日-12月1日｜4周',productPrice:'¥1299.00'},
     {id:'refundPending',state:'退款中',tab:'refund',count:1,total:'¥120.00',payText:'退款详情',products:1},
@@ -17489,6 +17490,7 @@ document.addEventListener('click', function(e){
   }
 
   window.openMineOrderDetail=function(status){
+    if(status && String(status).indexOf('ec:')===0){ if(typeof openEcOrderDetail==='function'){openEcOrderDetail();return;} }
     ensureOrderPages();
     var order=orderData.find(function(item){return item.id===status;}) || null;
     var detailStatus=order ? order.tab : status;
@@ -28217,6 +28219,47 @@ document.addEventListener('click', function(e){
   .ec-table td:first-child,.ec-table th:first-child{color:#909399;text-align:left;padding-left:6px;white-space:nowrap;width:64px;}
   .ec-table em{font-style:normal;display:block;color:#ba7a55;font-size:9px;}
   .ec-table .hl{color:#ba7a55;font-weight:800;background:#fffaf1;}
+  /* V112:权益卡退款申请页(结构对齐团课退款页) */
+  .ec-rf-page{position:absolute;inset:0;z-index:1300;display:none;background:#f3f5f8;color:#171923;overflow:hidden;}
+  .ec-rf-page.active{display:block;}
+  .ec-rf-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:100px;}
+  .ec-rf-prod{margin:12px;background:#fff;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:center;}
+  .ec-rf-art{flex:none;width:64px;height:64px;border-radius:8px;background:linear-gradient(135deg,#171a21,#050506);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;letter-spacing:1px;position:relative;overflow:hidden;}
+  .ec-rf-art:after{content:"";position:absolute;left:8px;right:8px;top:38px;height:8px;background:linear-gradient(90deg,#fff,#f2c47c,#7a5a1e);}
+  .ec-rf-prod b{font-size:15px;display:block;}
+  .ec-rf-prod span{font-size:11px;color:#8b929d;display:block;margin-top:4px;}
+  .ec-rf-stats{margin:12px;background:#fff;border-radius:12px;padding:16px 0;display:flex;}
+  .ec-rf-stats>div{flex:1;text-align:center;font-size:20px;font-weight:900;}
+  .ec-rf-stats>div span{display:block;font-size:11px;color:#8b929d;font-weight:400;margin-top:4px;}
+  .ec-rf-stats>div+div{border-left:1px solid #f0f2f5;}
+  .ec-rf-form{margin:12px;background:#fff;border-radius:12px;padding:4px 14px;}
+  .ec-rf-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;font-size:14px;}
+  .ec-rf-row+.ec-rf-row{border-top:1px solid #f5f6f8;}
+  .ec-rf-row .lab{font-weight:700;}
+  .ec-rf-row .lab i{color:#ff4d4f;font-style:normal;margin-left:2px;}
+  .ec-rf-row .val{color:#8b929d;font-size:13px;}
+  .ec-rf-row .val.sel{color:#171923;}
+  .ec-rf-amt{margin:12px;background:#fff;border-radius:12px;padding:14px;}
+  .ec-rf-amt-head{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;cursor:pointer;}
+  .ec-rf-amt-head b{font-size:18px;}
+  .ec-rf-amt-head small{font-size:12px;color:#8b929d;font-weight:400;margin-left:4px;}
+  .ec-rf-amt-detail{display:none;margin-top:10px;border-top:1px solid #f0f2f5;padding-top:10px;font-size:12px;color:#7f8793;}
+  .ec-rf-amt-detail.open{display:block;}
+  .ec-rf-amt-detail>div{display:flex;justify-content:space-between;line-height:2;}
+  .ec-rf-note{margin:12px;color:#8b929d;font-size:11px;line-height:1.9;}
+  .ec-rf-note b{display:block;font-size:14px;color:#171923;margin-bottom:6px;}
+  .ec-rf-bar{position:absolute;left:0;right:0;bottom:0;padding:10px 14px 22px;background:#fff;}
+  .ec-rf-bar button{width:100%;height:46px;border:0;border-radius:23px;background:#111622;color:#fff;font-size:15px;font-weight:700;}
+  .ec-rsn-mask{position:absolute;inset:0;z-index:1400;display:none;background:rgba(0,0,0,.5);}
+  .ec-rsn-mask.show{display:block;}
+  .ec-rsn-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:14px 14px 0 0;padding:16px 14px 26px;max-height:78%;display:flex;flex-direction:column;}
+  .ec-rsn-head{display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:800;margin-bottom:6px;}
+  .ec-rsn-head button{border:0;background:transparent;font-size:20px;color:#8b929d;}
+  .ec-rsn-list{overflow-y:auto;}
+  .ec-rsn-item{display:flex;justify-content:space-between;align-items:center;padding:14px 2px;font-size:14px;border-bottom:1px solid #f5f6f8;cursor:pointer;}
+  .ec-rsn-item .radio{flex:none;width:18px;height:18px;border:1.5px solid #c9cfd9;border-radius:50%;}
+  .ec-rsn-item.on .radio{border-color:#111622;background:radial-gradient(circle,#111622 45%,transparent 52%);}
+  .ec-rsn-close{margin-top:14px;width:100%;height:44px;border:0;border-radius:22px;background:#111622;color:#fff;font-size:14px;font-weight:700;}
 
   /* 团课结算页：选择权益卡弹窗 */
   .gc-dc-mask{position:absolute;inset:0;z-index:20;display:none;background:rgba(0,0,0,.58);align-items:flex-end;}
@@ -28335,6 +28378,85 @@ document.addEventListener('click', function(e){
     if(!toast) return;
     toast.classList.add('show');
     setTimeout(function(){toast.classList.remove('show');},1800);
+  };
+
+  /* ===== V112:权益卡订单详情 + 退款申请(入口唯一=订单详情;申请页结构对齐团课退款页) ===== */
+  var EC_RF_REASONS=['课程满员,未等候成功','临时有事,无法按时参加','行程/出差冲突','身体不适/受伤,暂时不能训练','赶不及到店','想换到其他时间/其他教练/其他门店','近期训练计划调整,不需要该课程了','价格不合适','重复下单/误操作下单','需要改用其他支付方式','其它原因'];
+  function ensureEcRefundPages(){
+    var phone=document.querySelector('.phone');
+    if(!phone || document.getElementById('ecOrderDetailPage')) return;
+    /* 权益卡订单详情(复用 V105 mod- 黑 hero 样式,商品卡带「申请退款」) */
+    var od=document.createElement('section');
+    od.id='ecOrderDetailPage';
+    od.className='mine-order-detail-page';
+    od.innerHTML='<div class="mod-scroll">'
+      +'<div class="mod-status"><span>9:41</span><span>▮▮▮ WiFi ▰</span></div>'
+      +'<div class="mod-nav"><div class="mod-left"><button type="button" onclick="closeEcOrderDetail()">‹</button><button type="button" onclick="closeEcOrderDetail(true)">⌂</button></div><div class="mod-title">订单详情</div><div class="mod-capsule"><span>•••</span><span class="mod-capsule-dot"></span></div></div>'
+      +'<div class="mod-hero"><h2 class="mod-state-title">已完成</h2><div class="mod-state-desc"></div>'
+      +'<div class="mod-store-card"><div class="mod-store">SAVAGE · 权益卡</div>'
+      +'<div class="mod-product"><div class="mod-avatar" style="background:linear-gradient(135deg,#171a21,#050506);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;">SAVAGE</div><div><div class="mod-product-title">双课轻享权益卡</div><div class="mod-product-time">2次常规团课(89/69) + 6次85折通用折扣<br>有效期至 2026.11.12</div></div><div class="mod-price">¥111.00<span>x1</span><button class="mo-btn" type="button" style="margin-top:8px;min-width:64px;height:26px;font-size:11px;" onclick="openEcRefund()">申请退款</button></div></div>'
+      +'</div></div>'
+      +'<section class="mod-card" style="padding:14px;"><div class="refund-info-row"><span>商品价格</span><b>¥149.00</b></div><div class="refund-info-row"><span>新人价优惠</span><b>-¥38.00</b></div><div class="refund-info-row"><span>实付款</span><b>¥111.00</b></div></section>'
+      +'<section class="mod-card" style="padding:14px;"><div class="refund-info-row"><span>订单编号</span><b>T2610171556125435800099</b></div><div class="refund-info-row"><span>下单时间</span><b>2026-10-17 15:56:12</b></div><div class="refund-info-row"><span>支付时间</span><b>2026-10-17 15:56:18</b></div><div class="refund-info-row"><span>支付方式</span><b>微信支付</b></div><div class="refund-info-row"><span>交易流水号</span><b>4500000573202610173567722202</b></div></section>'
+      +'</div>';
+    phone.appendChild(od);
+    /* 退款申请页(结构对齐团课:商品卡/统计行/原因/类型/数量/金额+下拉明细/说明/确定退款) */
+    var rf=document.createElement('section');
+    rf.id='ecRefundPage';
+    rf.className='ec-rf-page';
+    rf.innerHTML='<div class="ec-rf-scroll">'
+      +ecTopBar('申请退款','closeEcRefund()')
+      +'<div class="ec-rf-prod"><div class="ec-rf-art">SAVAGE</div><div><b>双课轻享权益卡</b><span>2次常规团课(89/69) + 6次85折通用折扣</span></div></div>'
+      +'<div class="ec-rf-stats"><div>8<span>权益总次数</span></div><div>1<span>已使用</span></div><div>7<span>剩余</span></div></div>'
+      +'<div class="ec-rf-form">'
+      +'<div class="ec-rf-row" onclick="openEcReason()" style="cursor:pointer"><span class="lab">退款原因<i>*</i></span><span class="val" id="ecRfReasonVal">请选择原因 ›</span></div>'
+      +'<div class="ec-rf-row"><span class="lab">退款类型</span><span class="val sel">整卡退款</span></div>'
+      +'<div class="ec-rf-row"><span class="lab">退款数量</span><span class="val sel">1</span></div>'
+      +'</div>'
+      +'<div class="ec-rf-amt"><div class="ec-rf-amt-head" onclick="document.getElementById(\'ecRfAmtDetail\').classList.toggle(\'open\')"><span>退款金额</span><b>¥22.00<small>⌄</small></b></div>'
+      +'<div class="ec-rf-amt-detail" id="ecRfAmtDetail"><div><span>实付金额</span><span>¥111.00</span></div><div><span>次卡已核销 1 次(按 89 元课挂牌价扣减)</span><span>-¥89.00</span></div><div><span>折扣卡已用 0 次</span><span>不追回已享折扣</span></div><div><span>折扣卡未用 6 次</span><span>回收不退款</span></div><div><span><b>退款金额</b>(下限 ¥0)</span><span><b>¥22.00</b></span></div></div></div>'
+      +'<div class="ec-rf-note"><b>退款金额说明</b>1. 退款按「实付金额 − 已核销权益价值」核算,已核销次卡权益按实际核销课程挂牌价扣减。<br>2. 折扣卡已使用次数不追回已享折扣,未使用次数直接回收不退款。<br>3. 退款预计 1-3 个工作日原路退回(微信支付);退款成功后全部未使用权益(次卡/折扣卡)实时回收。<br>4. 存在待上课程预约时,须先取消预约方可申请退款。</div>'
+      +'</div>'
+      +'<div class="ec-rf-bar"><button onclick="confirmEcRefund()">确定退款</button></div>'
+      +'<div class="ec-toast" id="ecRfToast"></div>';
+    phone.appendChild(rf);
+    /* 退款原因弹层(复用团课原因库) */
+    var mask=document.createElement('div');
+    mask.id='ecRsnMask';
+    mask.className='ec-rsn-mask';
+    var items='';
+    EC_RF_REASONS.forEach(function(r,i){items+='<div class="ec-rsn-item" data-i="'+i+'" onclick="pickEcReason(this)"><span>'+r+'</span><span class="radio"></span></div>';});
+    mask.innerHTML='<div class="ec-rsn-sheet"><div class="ec-rsn-head"><span>选择退款原因</span><button onclick="closeEcReason()">×</button></div><div class="ec-rsn-list">'+items+'</div><button class="ec-rsn-close" onclick="closeEcReason()">关闭</button></div>';
+    mask.onclick=function(e){if(e.target===mask) closeEcReason();};
+    phone.appendChild(mask);
+  }
+  window.openEcOrderDetail=function(){ensureEcRefundPages();document.getElementById('ecOrderDetailPage').classList.add('active');};
+  window.closeEcOrderDetail=function(home){document.getElementById('ecOrderDetailPage').classList.remove('active');if(home&&typeof window.showMinePage==='function')window.showMinePage();};
+  window.openEcRefund=function(){ensureEcRefundPages();document.getElementById('ecRefundPage').classList.add('active');};
+  window.closeEcRefund=function(){document.getElementById('ecRefundPage').classList.remove('active');};
+  window.openEcReason=function(){document.getElementById('ecRsnMask').classList.add('show');};
+  window.closeEcReason=function(){document.getElementById('ecRsnMask').classList.remove('show');};
+  window.pickEcReason=function(el){
+    document.querySelectorAll('#ecRsnMask .ec-rsn-item').forEach(function(it){it.classList.remove('on');});
+    el.classList.add('on');
+    var v=document.getElementById('ecRfReasonVal');
+    v.textContent=EC_RF_REASONS[+el.getAttribute('data-i')]+' ›';
+    v.classList.add('sel');
+    closeEcReason();
+  };
+  var ecRfToastTimer=null;
+  function showEcRfToast(msg){
+    var t=document.getElementById('ecRfToast');
+    if(!t) return;
+    t.textContent=msg;t.classList.add('show');
+    clearTimeout(ecRfToastTimer);
+    ecRfToastTimer=setTimeout(function(){t.classList.remove('show');},2200);
+  }
+  window.confirmEcRefund=function(){
+    var v=document.getElementById('ecRfReasonVal');
+    if(!v.classList.contains('sel')){showEcRfToast('请选择退款原因');return;}
+    showEcRfToast('退款申请已提交,预计 1-3 个工作日原路退回');
+    setTimeout(closeEcRefund,1400);
   };
 
   /* 团课结算页：折扣卡弹窗（109 元课不可用，仅展示原因；抵扣走次卡弹窗） */
