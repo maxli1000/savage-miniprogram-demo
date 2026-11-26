@@ -13,7 +13,7 @@
   }
   .page {
     width:100%; max-width:414px; min-height:100vh; background:#f3f4f6;
-    box-shadow:0 0 30px rgba(0,0,0,.10); position:relative; padding-bottom:104px;
+    box-shadow:0 0 30px rgba(0,0,0,.10); position:relative; padding-bottom:calc(104px + env(safe-area-inset-bottom, 0px));
   }
 
   /* ===== 状态栏 ===== */
@@ -107,6 +107,16 @@
   .cb.on svg { opacity:1; }
   .agree a { color:#1c1c1e; text-decoration:none; font-weight:500; }
 
+  /* ===== 卡包说明与有效期 ===== */
+  .pack-policy { margin:18px 12px 0; }
+  .pack-policy h2 { margin:0 3px 10px; font-size:16px; font-weight:750; }
+  .pack-policy dl { padding:0 12px; border-radius:14px; background:#fff; }
+  .pack-policy dl > div { display:grid; grid-template-columns:4.3em minmax(0,1fr); gap:8px; padding:12px 0; font-size:13.5px; line-height:1.55; }
+  .pack-policy dl > div + div { border-top:1px solid #f0f0f3; }
+  .pack-policy dt { color:#1c1c1e; font-weight:600; }
+  .pack-policy dd { color:#62656d; }
+  .pack-policy dd strong { color:#1c1c1e; }
+
   /* ===== 底部结算栏 ===== */
   .paybar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:414px; background:#fff; border-top:1px solid #f0f0f3; display:flex; align-items:center; justify-content:space-between; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); z-index:10; }
   .paybar .pl { display:flex; align-items:baseline; gap:6px; }
@@ -140,11 +150,11 @@
   <!-- 导航栏 -->
   <div class="navbar">
     <div class="nav-left">
-      <a href="../SAVAGE小程序样式/SAVAGE小程序demo.html" aria-label="返回" data-demo-navigation="back">
+      <a href="./index.html" aria-label="返回" data-demo-navigation="back">
         <svg aria-hidden="true" width="10" height="18" viewBox="0 0 10 18" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1 1 9l8 8"/></svg>
       </a>
       <div class="nav-sep"></div>
-      <a href="../SAVAGE小程序样式/SAVAGE小程序demo.html" aria-label="回到首页" data-demo-navigation="home">
+      <a href="./index.html" aria-label="回到首页" data-demo-navigation="home">
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/></svg>
       </a>
     </div>
@@ -260,6 +270,38 @@
     </div>
   </div>
 
+  <section class="pack-policy" aria-labelledby="packRulesTitle">
+    <h2 id="packRulesTitle">卡包说明</h2>
+    <dl>
+      <div>
+        <dt>适用课程</dt>
+        <dd>可约所选档位及更低价的团课。预约更高价的团课时，可用微信支付补差。</dd>
+      </div>
+      <div>
+        <dt>退款规则</dt>
+        <dd>可在有效期内申请退款，未使用可全额退。申请前请先处理尚未完成的预约或候补。</dd>
+      </div>
+      <div>
+        <dt>退款金额</dt>
+        <dd>已使用的卡包，扣除已消耗课次金额后，剩余实付款原路退回。已消耗课次按课程挂牌价核算，已支付且未退回的补差从对应课次的扣除金额中减去。</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="pack-policy" aria-labelledby="packActivationTitle">
+    <h2 id="packActivationTitle">有效期与激活</h2>
+    <dl>
+      <div>
+        <dt>激活方式</dt>
+        <dd>支付成功后自动激活。</dd>
+      </div>
+      <div>
+        <dt>有效期限</dt>
+        <dd>当前组合自激活起 <strong id="packValidDays">60 天</strong>内可使用，到期后未用课次失效。</dd>
+      </div>
+    </dl>
+  </section>
+
   <!-- 底部结算栏 -->
   <div class="paybar">
     <div class="pl">
@@ -304,7 +346,9 @@ function render() {
   $('orig').textContent = '¥' + fmt(orig);
   $('saved').textContent = '已省 ¥' + fmt(saved);
   $('countVal').textContent = n + ' 次';
-  $('daysVal').textContent = t.days + ' 天';
+  var validity = t.days + ' 天';
+  $('daysVal').textContent = validity;
+  $('packValidDays').textContent = validity;
   $('payPrice').innerHTML = '<span class="yen">¥</span>' + fmt(pay);
 
   var p = $('price'); p.classList.remove('pulse'); void p.offsetWidth; p.classList.add('pulse');
