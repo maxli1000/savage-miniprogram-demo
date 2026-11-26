@@ -29618,7 +29618,7 @@ document.addEventListener('click', function(e){
     if (!frame || event.source !== frame.contentWindow) return;
     if (!panel.classList.contains('active')) return;
     if (event.data?.type === 'multi-pass-paid') {
-      window.issueDemoMultiPass?.(event.data.counts);
+      window.issueDemoMultiPass?.(event.data.counts, event.data.store);
       return;
     }
     if (event.data?.type !== 'multi-pass-close') return;
@@ -30469,7 +30469,7 @@ document.addEventListener('click', function(e){
   let result;
   let purchaseCount = 0;
 
-  window.issueDemoMultiPass = (counts) => {
+  window.issueDemoMultiPass = (counts, store) => {
     const amounts = tiers.map(tier => counts?.['c'+tier]);
     if (!amounts.every(n => Number.isInteger(n) && n >= 0 && n <= 20)) return;
     const total = amounts.reduce((sum,n) => sum+n,0);
@@ -30478,7 +30478,7 @@ document.addEventListener('click', function(e){
     purchaseCount += 1;
     tiers.forEach((tier,index) => {
       if (!amounts[index]) return;
-      multiPasses.push({id:'multi-'+purchaseCount+'-'+tier,name:'随心选次卡',tier,remaining:amounts[index],expiresAt});
+      multiPasses.push({id:'multi-'+purchaseCount+'-'+tier,name:'随心选次卡',tier,remaining:amounts[index],expiresAt,store});
     });
   };
 
@@ -30912,7 +30912,8 @@ document.addEventListener('click', function(e){
     heading.textContent='可用于团课的次卡';
     summary.appendChild(heading);
     for (const card of assets()) {
-      summary.appendChild(textLine(card.name+' · '+card.tier+' 元档 · 剩 '+card.remaining+' 次 · '+expiryText(card.expiresAt)+' 到期'));
+      const store = card.store ? ' · 开卡门店 '+card.store : '';
+      summary.appendChild(textLine(card.name+' · '+card.tier+' 元档 · 剩 '+card.remaining+' 次 · '+expiryText(card.expiresAt)+' 到期'+store));
     }
     list.prepend(summary);
   };

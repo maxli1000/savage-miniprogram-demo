@@ -97,9 +97,20 @@
   .snum { min-width:20px; text-align:center; font-size:15.5px; font-weight:600; }
 
   /* ===== 门店 / 协议 ===== */
-  .store { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; }
-  .store .l { font-size:15px; color:#222; }
+  .store { display:flex; justify-content:space-between; align-items:center; gap:12px; width:100%; padding:16px 20px; border:0; background:#fff; font:inherit; text-align:left; cursor:pointer; }
+  .store .l { font-size:15px; color:#222; font-weight:700; }
   .store .r { font-size:14px; color:#777; display:flex; align-items:center; gap:5px; }
+  .store:focus-visible { outline:2px solid #7b3fc4; outline-offset:-2px; }
+  .store-dialog { position:fixed; inset:auto 0 0; margin:0 auto; width:min(100%,414px); max-width:100%; border:0; border-radius:20px 20px 0 0; padding:18px 17px max(19px,env(safe-area-inset-bottom,0px)); color:#181d28; }
+  .store-dialog::backdrop { background:#14182b80; }
+  .store-dialog header { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .store-dialog h2 { font-size:1.17rem; font-weight:760; }
+  .store-dialog button { border:0; font-family:inherit; cursor:pointer; }
+  .store-dismiss { width:42px; height:42px; border-radius:50%; background:#f3f5f8; color:#5e6676; font-size:1.4rem; }
+  .store-options { list-style:none; }
+  .store-options label { display:flex; justify-content:space-between; align-items:center; gap:9px; padding:12px 2px; border-bottom:1px solid #e4e7ed; cursor:pointer; }
+  .store-options input { width:17px; height:17px; accent-color:#181d28; }
+  .store-apply { width:100%; min-height:45px; margin-top:14px; border-radius:24px; background:#131722; color:#fff; font-size:.92rem; font-weight:730; }
   .agree { display:flex; align-items:center; gap:8px; padding:14px 20px 18px; font-size:12.5px; color:#9a9aa0; }
   .cb { width:17px; height:17px; border-radius:50%; border:1.5px solid #c9c9cf; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all .15s; background:#fff; }
   .cb.on { background:#1c1c1e; border-color:#1c1c1e; }
@@ -253,12 +264,12 @@
     <div class="divider"></div>
 
     <!-- 门店 -->
-    <div class="store">
-      <span class="l">开卡门店</span>
-      <span class="r">嘉里中心店
-        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#c4c4ca" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg>
+    <button class="store" id="openStore" type="button" aria-haspopup="dialog" aria-controls="storeDialog">
+      <strong class="l">开卡门店</strong>
+      <span class="r"><span id="storeName">嘉里中心店</span>
+        <svg aria-hidden="true" width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#c4c4ca" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg>
       </span>
-    </div>
+    </button>
     <div class="divider"></div>
 
     <!-- 协议 -->
@@ -313,6 +324,21 @@
 
   <div class="toast" id="toast"></div>
 </div>
+
+<dialog class="store-dialog" id="storeDialog" aria-labelledby="storeTitle">
+  <form method="dialog">
+    <header>
+      <h2 id="storeTitle">选择开卡门店</h2>
+      <button class="store-dismiss" type="submit" value="cancel" aria-label="关闭弹窗">×</button>
+    </header>
+    <ul class="store-options">
+      <li><label>嘉里中心店<input type="radio" name="store" value="嘉里中心店" checked></label></li>
+      <li><label>北京三里屯店<input type="radio" name="store" value="北京三里屯店"></label></li>
+      <li><label>北京中关村领展店<input type="radio" name="store" value="北京中关村领展店"></label></li>
+    </ul>
+    <button class="store-apply" type="submit" value="confirm">确认门店</button>
+  </form>
+</dialog>
 
 <script>
 /* ================= 数据与规则 ================= */
@@ -385,6 +411,22 @@ function render() {
 }
 
 /* ================= 交互 ================= */
+const storeDialog = $('storeDialog');
+const storeName = $('storeName');
+const storeOptions = storeDialog.querySelectorAll('input[name="store"]');
+
+$('openStore').addEventListener('click', () => {
+  storeOptions.forEach(input => { input.checked = input.value === storeName.textContent; });
+  storeDialog.returnValue = '';
+  storeDialog.showModal();
+});
+
+storeDialog.addEventListener('close', () => {
+  if (storeDialog.returnValue !== 'confirm') return;
+  const selected = storeDialog.querySelector('input[name="store"]:checked');
+  if (selected) storeName.textContent = selected.value;
+});
+
 if (window.parent !== window) {
   document.querySelectorAll('[data-demo-navigation]').forEach(function (link) {
     link.addEventListener('click', function (event) {
@@ -393,7 +435,7 @@ if (window.parent !== window) {
     });
   });
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') window.parent.postMessage({ type: 'multi-pass-close' }, '*');
+    if (event.key === 'Escape' && !storeDialog.open) window.parent.postMessage({ type: 'multi-pass-close' }, '*');
   });
 }
 
@@ -419,7 +461,7 @@ $('payBtn').addEventListener('click', function () {
   if (!$('cb').classList.contains('on')) return toast('请先阅读并同意《SAVAGE 多次卡包协议》');
   var n = total(), t = TIERS[tierIndex(n)];
   if (window.parent !== window) {
-    window.parent.postMessage({ type: 'multi-pass-paid', counts: { ...counts } }, '*');
+    window.parent.postMessage({ type: 'multi-pass-paid', counts: { ...counts }, store: storeName.textContent }, '*');
     $('cb').classList.remove('on');
   }
   toast('原型演示：' + n + ' 次 · ' + t.label + ' · 实付 ' + $('payPrice').textContent);
