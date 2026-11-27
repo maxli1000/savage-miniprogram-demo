@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>SAVAGE 权益包售卖页</title>
+<style>
+  :root {
+    color-scheme: light;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    color: #181d28;
+    background: #e8eaf0;
+    --ink: #181d28;
+    --muted: #5e6676;
+    --surface: #f3f5f8;
+    --line: #e4e7ed;
+    --accent: #bd4d1d;
+    --purple: #553698;
+    --width: 460px;
+    --footer-height: 118px;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  button, input { font: inherit; }
+  button { cursor: pointer; color: inherit; }
+  button:disabled { cursor: default; }
+  :focus-visible { outline: 2px solid var(--purple); outline-offset: 4px; }
+  [hidden] { display: none !important; }
+  p, h1, h2, h3 { margin: 0; }
+  .app { width: min(100%, var(--width)); min-height: 100dvh; margin: 0 auto; background: var(--surface); box-shadow: 0 0 48px #27324c14; }
+  .top { position: sticky; top: 0; z-index: 5; }
+  .nav { display: grid; place-items: center; min-height: 57px; padding: env(safe-area-inset-top, 0) 16px 0; background: white; }
+  .nav h1 { font-size: 1.17rem; font-weight: 720; letter-spacing: .02em; }
+
+  .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid #e9ebf0; background: var(--surface); }
+  .tier { position: relative; min-height: 49px; padding: 9px 3px; border: 0; background: none; color: var(--muted); font-size: clamp(.78rem, 3.65vw, 1rem); font-weight: 560; white-space: nowrap; }
+  .tier[aria-pressed="true"] { color: var(--ink); font-weight: 760; }
+  .tier[aria-pressed="true"]::after { position: absolute; bottom: 0; left: calc(50% - 9px); width: 18px; height: 3px; border-radius: 4px; background: var(--ink); content: ""; }
+  .tiers.tiers-below-card { gap: 8px; padding: 0 16px 16px; border: 0; }
+  .tiers-below-card .tier { min-height: 44px; padding-inline: 4px; border: 1px solid var(--line); border-radius: 10px; background: white; color: var(--ink); }
+  .tiers-below-card .tier[aria-pressed="true"] { border-color: var(--purple); background: #f3eefb; color: var(--purple); }
+  .tiers-below-card .tier[aria-pressed="true"]::after { content: none; }
+  .purchase { padding-bottom: calc(var(--footer-height) + 16px); }
+  .hero { display: grid; place-items: center; padding: 26px 12px 27px; }
+  .hero img { width: min(76%, 324px); height: auto; aspect-ratio: 452 / 298; display: block; object-fit: cover; border-radius: 15px; box-shadow: 0 11px 25px #45218722; }
+  .product { padding: 22px 19px 7px; background: white; border-radius: 24px 24px 0 0; }
+  .product-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 9px 12px; }
+  .product-heading h2 { font-size: clamp(1.37rem, 5.5vw, 1.83rem); line-height: 1.18; letter-spacing: -.04em; font-weight: 790; }
+  .product-heading p { margin-top: 5px; color: var(--muted); font-size: .875rem; line-height: 1.5; }
+  .cycle-price { flex-shrink: 0; color: var(--accent); text-align: right; line-height: 1.05; white-space: nowrap; }
+  .cycle-price strong { font-size: clamp(1.42rem, 5.8vw, 1.92rem); font-weight: 800; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
+  .cycle-price small { color: var(--muted); font-size: .8rem; font-weight: 500; }
+  .offers { min-width: 0; margin: 17px 0 0; padding: 0; border: 0; }
+  .offers legend { padding: 0; margin-bottom: 8px; font-size: .96rem; font-weight: 760; }
+  .offer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .offer { display: grid; align-content: start; gap: 6px; min-width: 0; min-height: 86px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 9px; cursor: pointer; background: #f8f9fb; }
+  .offer:has(input:checked) { border-color: #a892cf; background: #f3eefb; }
+  .offer:has(input:focus-visible) { outline: 2px solid var(--purple); outline-offset: 2px; }
+  .offer-head { display: flex; align-items: center; gap: 5px; font-size: .875rem; font-weight: 720; }
+  .offer input { margin: 0; width: 15px; height: 15px; flex: 0 0 auto; accent-color: var(--purple); }
+  .offer strong { font-size: 1.11rem; letter-spacing: -.025em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .offer small { color: var(--muted); font-size: .77rem; font-weight: 500; white-space: nowrap; }
+  .offer-note { min-height: 43px; padding: 8px 0 11px; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+  .offer-note[hidden] + .benefits { margin-top: 14px; }
+  .benefits { padding-top: 14px; border-top: 1px solid var(--line); }
+  .benefits h3, .rules h3 { font-size: 1.035rem; font-weight: 760; }
+  .benefits-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 9px; }
+  .benefits-value { padding: 2px 6px; border-radius: 3px; background: #fff1e9; color: var(--accent); font-size: .8rem; white-space: nowrap; }
+  .benefit { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: start; gap: 11px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .benefit:last-child { border-bottom: 0; }
+  .art { display: block; width: 64px; height: 42px; object-fit: cover; border-radius: 5px; }
+  .benefit strong { display: block; font-size: .98rem; line-height: 1.28; }
+  .benefit p { margin-top: 4px; font-size: .875rem; line-height: 1.45; color: var(--muted); }
+  .benefit .qualifier { color: var(--accent); margin-top: 3px; }
+  .quantity { align-self: center; padding-top: 1px; font-weight: 750; font-size: .91rem; white-space: nowrap; }
+
+  .store, .rules { margin: 9px 9px 0; background: white; border-radius: 15px; }
+  .store { display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; width: calc(100% - 18px); min-height: 58px; padding: 13px 14px; border: 0; }
+  .store strong { font-size: 1rem; }
+  .store-value { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: .9rem; }
+  .chevron { display: inline-block; flex: none; width: 6px; height: 6px; border-right: 1.5px solid; border-bottom: 1.5px solid; transform: rotate(-45deg); }
+  .rules { padding: 16px 14px 3px; }
+  .rules dl { margin: 6px 0 0; }
+  .rules dl div { display: grid; grid-template-columns: 4.4em minmax(0, 1fr); gap: 2px 8px; padding: 11px 0; border-bottom: 1px solid #edf0f3; line-height: 1.55; font-size: .91rem; }
+  .rules dl div:last-child { border-bottom: 0; }
+  .rules dt { font-weight: 660; }
+  .rules dd { margin: 0; color: var(--muted); }
+
+  .checkout { position: fixed; z-index: 6; bottom: 0; left: 50%; transform: translateX(-50%); width: min(100%, var(--width)); background: white; box-shadow: 0 -6px 23px #27324c11; }
+  .consent { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 10px; min-height: 39px; background: #f7f8fa; color: var(--muted); font-size: .84rem; line-height: 1.3; }
+  .consent label { cursor: pointer; }
+  .consent input { flex: none; width: 17px; height: 17px; margin: 0; accent-color: var(--ink); cursor: pointer; }
+  .consent-copy { min-width: 0; }
+  .agreement-link { border: 0; background: none; padding: 5px 0; color: var(--ink); font-weight: 700; text-align: left; }
+  .consent-error { padding: 0 14px 6px; background: #f7f8fa; color: #a22c24; font-size: .84rem; text-align: center; }
+  .pay-row { display: flex; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 15px max(11px, env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
+  .pay-caption { color: var(--muted); font-size: .83rem; }
+  .pay-amount { display: block; font-size: 1.27rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.24; }
+  .button { min-height: 45px; padding: 10px 16px; border: 1px solid transparent; border-radius: 26px; font-size: .92rem; font-weight: 730; text-align: center; }
+  .button-dark { background: #131722; color: white; }
+  .button-dark:hover:not(:disabled) { background: #252b39; }
+  .button-dark:disabled { background: #e7e9ee; color: #5c6371; }
+  .button-secondary { border-color: #dde0e8; background: white; color: var(--ink); }
+  .buy-button { min-width: 8.8em; max-width: 56%; }
+  .checkout-monthly .pay-row { padding: 9px 13px 2px; border-top: 0; }
+  .checkout-monthly .buy-button { width: 100%; max-width: none; min-width: 0; min-height: 50px; font-size: 1rem; }
+  .checkout-monthly .consent { align-items: flex-start; flex-wrap: nowrap; gap: 6px; padding: 4px 12px max(9px, env(safe-area-inset-bottom, 0px)); background: white; font-size: .73rem; }
+  .checkout-monthly .consent input { appearance: none; margin-top: 5px; border: 1.5px solid #a3a8b2; border-radius: 50%; }
+  .checkout-monthly .consent input:checked { border-color: var(--ink); background: var(--ink); box-shadow: inset 0 0 0 3px white; }
+  .checkout-monthly .agreement-link { display: inline-block; padding: 4px 0; }
+  .checkout-monthly .consent-error { background: white; }
+
+  dialog { position: fixed; inset: auto 0 0; margin: 0 auto; padding: 0; width: min(100%, var(--width)); max-width: 100%; max-height: min(85dvh, 620px); border: 0; border-radius: 21px 21px 0 0; color: var(--ink); box-shadow: 0 0 29px #0002; }
+  dialog::backdrop { background: #14182b80; }
+  .sheet { padding: 18px 17px max(19px, env(safe-area-inset-bottom, 0px)); }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 7px; margin-bottom: 10px; }
+  .sheet-head h2 { font-size: 1.17rem; font-weight: 760; }
+  .dismiss { width: 42px; height: 42px; flex: none; padding: 0; border: 0; border-radius: 50%; background: var(--surface); color: var(--muted); font-size: 1.4rem; line-height: 1; }
+  .sheet-copy { color: var(--muted); line-height: 1.65; font-size: .96rem; }
+  .sheet-copy + .sheet-copy { margin-top: 9px; }
+  .sheet-actions { display: flex; gap: 8px; margin-top: 18px; }
+  .sheet-actions .button { flex: 1; }
+  .sheet-actions a.button { display: flex; align-items: center; justify-content: center; text-decoration: none; }
+  .sheet-data { margin: 13px 0 0; padding: 2px 12px; background: var(--surface); border-radius: 11px; }
+  .sheet-data div { display: flex; align-items: start; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #e5e8ef; font-size: .94rem; }
+  .sheet-data div:last-child { border-bottom: 0; }
+  .sheet-data dt { color: var(--muted); }
+  .sheet-data dd { margin: 0; text-align: right; font-weight: 680; }
+  .renewal-agreement-cancel { margin-top: 13px; }
+  #dialog[data-active-panel="agreement"] {
+    height: min(86dvh, 720px);
+    max-height: none;
+    background: white;
+  }
+  #dialog[data-active-panel="agreement"]::backdrop { background: #0008; }
+  #dialog[data-active-panel="agreement"] .sheet {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+  }
+  #dialog[data-active-panel="agreement"] .sheet-head {
+    flex: none;
+    margin: 0;
+    padding: 7px 14px 7px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  #dialog[data-active-panel="agreement"] .dismiss { background: transparent; }
+  .purchase-notice { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+  .purchase-notice-body {
+    flex: 1;
+    min-height: 0;
+    padding: 18px 20px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .purchase-notice-body:focus-visible { outline-offset: -2px; }
+  .purchase-notice-summary {
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: .875rem;
+    font-weight: 650;
+    line-height: 1.5;
+  }
+  .purchase-notice-rule { margin-top: 18px; }
+  .purchase-notice-rule h3 { margin-bottom: 5px; font-size: .97rem; font-weight: 720; }
+  .purchase-notice-rule .sheet-copy { font-size: .88rem; }
+  .purchase-notice .sheet-actions {
+    flex: none;
+    margin: 0;
+    padding: 11px 20px max(12px, env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--line);
+  }
+  .store-options { list-style: none; margin: 0; padding: 0; }
+  .store-options label { display: flex; justify-content: space-between; align-items: center; gap: 9px; padding: 12px 2px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .store-options input { width: 17px; height: 17px; accent-color: var(--ink); }
+  @media (max-width: 345px) {
+    .product { padding-inline: 13px; }
+    .benefit { grid-template-columns: 49px minmax(0, 1fr) auto; gap: 8px; }
+    .art { width: 49px; height: 33px; }
+    .consent { flex-wrap: wrap; }
+    .offer { padding-inline: 6px; }
+    .offer-head { gap: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="nav"><h1>权益包</h1></div>
+  </header>
+
+  <main id="purchase" class="purchase">
+    <div class="hero">
+      <img src="data:image/webp;base64,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" width="452" height="298" alt="SAVAGE 运动空间紫色权益包卡面">
+    </div>
+
+    <nav id="tiers" class="tiers tiers-below-card" aria-label="选择权益包档位">
+      <button class="tier" type="button" data-plan="119" aria-pressed="true">119元权益包</button>
+      <button class="tier" type="button" data-plan="149" aria-pressed="false">149元权益包</button>
+      <button class="tier" type="button" data-plan="179" aria-pressed="false">179元权益包</button>
+    </nav>
+
+    <section class="product" aria-labelledby="plan-title">
+      <div class="product-heading">
+        <div>
+          <h2 id="plan-title">119元权益包</h2>
+          <p>每期 2 次基础课次及专属优惠</p>
+        </div>
+        <div class="cycle-price"><strong id="plan-price">¥119</strong> <small id="plan-unit">/ 期</small></div>
+      </div>
+      <fieldset class="offers">
+        <legend>购买方式</legend>
+        <div class="offer-grid">
+          <label class="offer">
+            <span class="offer-head"><input type="radio" name="purchase-mode" value="single" aria-label="单月购买"><span>单月购买</span></span>
+            <span><strong id="single-offer-price">¥129</strong> <small>30 天有效</small></span>
+          </label>
+          <label class="offer">
+            <span class="offer-head"><input type="radio" name="purchase-mode" value="monthly" checked aria-label="连续包月"><span>连续包月</span></span>
+            <span><strong id="monthly-offer-price">¥119</strong> <small>/ 30 天</small></span>
+          </label>
+        </div>
+      </fieldset>
+      <p id="single-offer-note" class="offer-note" hidden>支付成功后 30 天有效，到期自动结束。</p>
+
+      <section class="benefits" aria-labelledby="benefits-title">
+        <div class="benefits-heading">
+          <h3 id="benefits-title">包内权益</h3>
+          <span class="benefits-value" id="benefits-value">权益总价值 ¥138 起</span>
+        </div>
+        <div class="benefit">
+          <img class="art" src="data:image/webp;base64,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" alt="" width="64" height="42">
+          <div>
+            <strong id="basic-title">69元权益次卡</strong>
+            <p id="basic-copy">价值 ¥138，可约 69 元团课，全部门店通用</p>
+          </div>
+          <span class="quantity">2 次</span>
+        </div>
+        <div class="benefit">
+          <img class="art" src="data:image/webp;base64,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" alt="" width="64" height="42">
+          <div>
+            <strong>团课8折优惠券</strong>
+            <p>30 天内不限次，全档团课可用，多约多省</p>
+            <p class="qualifier">本包两张次卡均计入使用后可用</p>
+          </div>
+          <span class="quantity">不限量</span>
+        </div>
+        <div class="benefit">
+          <img class="art" src="data:image/webp;base64,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" alt="" width="64" height="42">
+          <div>
+            <strong>训练营8折优惠券</strong>
+            <p>当期有效，单节与整营购买均可用，每单限用 1 张</p>
+          </div>
+          <span class="quantity">2 张</span>
+        </div>
+      </section>
+    </section>
+
+    <button id="open-store" class="store" type="button" aria-haspopup="dialog">
+      <strong>购买门店</strong>
+      <span class="store-value"><span id="store-name">嘉里中心店</span><span class="chevron" aria-hidden="true"></span></span>
+    </button>
+
+    <section class="rules" aria-labelledby="rule-title">
+      <h3 id="rule-title">权益包说明</h3>
+      <dl>
+        <div><dt>使用时效</dt><dd id="validity-copy">自购买之日起 30 天内有效。</dd></div>
+        <div><dt>适用范围</dt><dd>SAVAGE 全部门店通用。次卡可预约所选档位适用的团课，折扣券分别用于团课和训练营。</dd></div>
+        <div><dt>使用顺序</dt><dd>本期两张次卡均计入使用后，团课优惠券自动解锁。训练营优惠券发放后可用。</dd></div>
+        <div><dt>使用限制</dt><dd>次卡可转赠。折扣券仅限本人使用、不可转赠，且不可与其他优惠券叠加。</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer id="checkout" class="checkout checkout-monthly">
+    <div class="pay-row" id="checkout-pay-row">
+      <div id="pay-summary" hidden><span class="pay-caption">本期实付</span><strong id="pay-amount" class="pay-amount" aria-live="polite">¥119.00</strong></div>
+      <button id="buy-button" type="button" class="button button-dark buy-button">确认开通，¥119.00</button>
+    </div>
+    <div class="consent">
+      <input id="agreement" type="checkbox" aria-labelledby="agreement-label open-agreement renewal-conjunction open-renewal-agreement">
+      <div class="consent-copy">
+        <label for="agreement" id="agreement-label">阅读并确认</label>
+        <button id="open-agreement" class="agreement-link" type="button" aria-haspopup="dialog">《SAVAGE 权益包协议》</button>
+        <span id="renewal-conjunction">和</span>
+        <button id="open-renewal-agreement" class="agreement-link" type="button" aria-haspopup="dialog">《自动续费服务协议》</button>
+      </div>
+    </div>
+    <p id="consent-error" class="consent-error" role="alert" hidden></p>
+  </footer>
+</div>
+
+<dialog id="dialog" aria-labelledby="sheet-title">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="sheet-title"></h2>
+      <button type="button" class="dismiss" data-dismiss aria-label="关闭弹窗">×</button>
+    </div>
+
+    <section data-panel="store" hidden>
+      <ul class="store-options">
+        <li><label>嘉里中心店<input type="radio" name="store" value="嘉里中心店"></label></li>
+        <li><label>北京三里屯店<input type="radio" name="store" value="北京三里屯店"></label></li>
+        <li><label>北京中关村领展店<input type="radio" name="store" value="北京中关村领展店"></label></li>
+      </ul>
+      <div class="sheet-actions"><button type="button" class="button button-dark" id="apply-store">确认门店</button></div>
+    </section>
+
+    <section class="purchase-notice" data-panel="agreement" hidden>
+      <div class="purchase-notice-body" id="agreement-body" role="region" aria-label="购买须知正文" tabindex="0">
+        <p class="purchase-notice-summary" id="agreement-plan"></p>
+        <div class="purchase-notice-rule">
+          <h3>生效与有效期</h3>
+          <p class="sheet-copy" id="agreement-validity"></p>
+        </div>
+        <div class="purchase-notice-rule">
+          <h3>适用门店</h3>
+          <p class="sheet-copy">权益包在 SAVAGE 全部门店通用。所选购买门店仅用于记录本次购买归属。</p>
+        </div>
+        <div class="purchase-notice-rule">
+          <h3>基础次卡</h3>
+          <p class="sheet-copy" id="agreement-passes"></p>
+        </div>
+        <div class="purchase-notice-rule">
+          <h3>团课加练与训练营折扣</h3>
+          <p class="sheet-copy">当期 2 张基础次卡均计入使用进度后，解锁团课 8 折加练，当期不限次。每期另发 2 张训练营 8 折券，每单限用 1 张。两类折扣均限本人使用。</p>
+        </div>
+        <div class="purchase-notice-rule">
+          <h3>退款规则</h3>
+          <p class="sheet-copy" id="agreement-refund"></p>
+          <p class="sheet-copy" id="agreement-renewal-refund" hidden></p>
+        </div>
+      </div>
+      <div class="sheet-actions">
+        <button type="button" class="button button-dark" id="accept-agreement">同意并返回</button>
+      </div>
+    </section>
+
+    <section data-panel="renewal-agreement" hidden>
+      <p class="sheet-copy">首次支付和微信代扣签约均成功后生效。续订开启期间，每 30 天按签约金额自动扣费一次，续费前会发送提醒。</p>
+      <dl class="sheet-data">
+        <div><dt>订阅商品</dt><dd id="renewal-agreement-plan"></dd></div>
+        <div><dt>首月及后续每期</dt><dd id="renewal-agreement-amount"></dd></div>
+        <div><dt>下期扣费</dt><dd id="renewal-agreement-next"></dd></div>
+      </dl>
+      <p class="sheet-copy renewal-agreement-cancel">可在「我的 → 权益包 → 权益包详情 → 续订管理」关闭续订。关闭后当期权益可用至到期，后续停止自动扣费。</p>
+      <div class="sheet-actions"><button class="button button-dark" type="button" data-dismiss>返回购买页</button></div>
+    </section>
+
+    <section data-panel="pay" hidden>
+      <p class="sheet-copy" id="pay-demo-copy">微信支付为原型演示。</p>
+      <dl class="sheet-data">
+        <div><dt>购买档位</dt><dd id="dialog-plan"></dd></div>
+        <div><dt>购买方式</dt><dd id="dialog-mode"></dd></div>
+        <div><dt>本期实付</dt><dd id="dialog-price"></dd></div>
+        <div id="dialog-renewal-row" hidden><dt>下期续费</dt><dd id="dialog-renewal"></dd></div>
+        <div><dt>购买门店</dt><dd id="dialog-store"></dd></div>
+      </dl>
+      <div class="sheet-actions"><button type="button" class="button button-dark" data-dismiss>返回售卖页</button></div>
+    </section>
+
+  </div>
+</dialog>
+
+<script>
+  const plans = {
+    119: { course: 69, scope: '69 元团课', difference: '69 元档次卡预约 89 元课补 ¥20，预约 109 元课补 ¥40。' },
+    149: { course: 89, scope: '89 元及以下团课', difference: '89 元档次卡预约 109 元课补 ¥20。向下约课扣 1 次。' },
+    179: { course: 109, scope: '109 元及以下团课', difference: '109 元档次卡可约 69、89、109 元团课，每人位扣 1 次。' }
+  };
+
+  const modes = {
+    single: { name: '单月购买', button: '确认购买' },
+    monthly: { name: '连续包月', button: '确认开通，' }
+  };
+
+  const standardRefund = '有效期内请联系客服办理退款，按本期实付扣除时长费用和已消耗课次金额后计算。已享优惠不追回。';
+  const renewalRefund = '自动续费后 24 小时内，本期从未成功预约或候补、未核销、未享优惠且无已领取转赠时，可联系客服申请全额退款。';
+  const $ = (id) => document.getElementById(id);
+  const price = (plan, mode) => (plan + (mode === 'single' ? 10 : 0)) * 100;
+  const periodDuration = 30 * 86_400_000;
+  const amount = (cents, compact = false) => '¥' + (cents / 100).toFixed(compact && cents % 100 === 0 ? 0 : 2);
+  const title = (value) => value + '元权益包';
+  const requested = Number(new URLSearchParams(location.search).get('plan'));
+  let selectedPlan = Object.hasOwn(plans, requested) ? requested : 119;
+  let selectedMode = 'monthly';
+  let store = '嘉里中心店';
+
+  function dateLabel(value) {
+    return new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric' }).format(value);
+  }
+
+  function estimatedRenewal(payable) {
+    return '预计 ' + dateLabel(new Date(Date.now() + periodDuration)) + ' 扣费 ' + payable;
+  }
+
+  function renderPlan() {
+    const plan = plans[selectedPlan];
+    const mode = modes[selectedMode];
+    const isMonthly = selectedMode === 'monthly';
+    const currentPrice = price(selectedPlan, selectedMode);
+    const payable = amount(currentPrice);
+    document.querySelectorAll('[data-plan]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(Number(button.dataset.plan) === selectedPlan));
+    });
+    document.querySelectorAll('input[name="purchase-mode"]').forEach((input) => {
+      input.checked = input.value === selectedMode;
+    });
+    $('plan-title').textContent = title(selectedPlan);
+    $('plan-price').textContent = amount(currentPrice, true);
+    $('plan-unit').textContent = isMonthly ? '/ 期' : '/ 30 天';
+    $('single-offer-price').textContent = amount(price(selectedPlan, 'single'), true);
+    $('monthly-offer-price').textContent = amount(price(selectedPlan, 'monthly'), true);
+    $('single-offer-note').hidden = isMonthly;
+    const benefitValue = amount(plan.course * 2 * 100, true);
+    $('benefits-value').textContent = '权益总价值 ' + benefitValue + ' 起';
+    $('basic-title').textContent = plan.course + '元权益次卡';
+    $('basic-copy').textContent = '价值 ' + benefitValue + '，可约 ' + plan.scope + '，全部门店通用';
+    $('validity-copy').textContent = isMonthly
+      ? '首期支付与签约均成功后生效，每期 30 天内有效。'
+      : '自购买之日起 30 天内有效。';
+    const checkout = $('checkout');
+    if (checkout.classList.contains('checkout-monthly') !== isMonthly) {
+      checkout.classList.toggle('checkout-monthly', isMonthly);
+      const payRow = $('checkout-pay-row');
+      if (isMonthly) checkout.prepend(payRow);
+      else checkout.append(payRow);
+    }
+    $('pay-summary').hidden = isMonthly;
+    $('pay-amount').textContent = payable;
+    $('agreement-label').textContent = isMonthly ? '阅读并确认' : '我已阅读并同意';
+    $('open-agreement').textContent = isMonthly ? '《SAVAGE 权益包协议》' : '《权益包购买须知》';
+    $('renewal-conjunction').hidden = !isMonthly;
+    $('open-renewal-agreement').hidden = !isMonthly;
+    $('agreement').setAttribute('aria-labelledby', isMonthly
+      ? 'agreement-label open-agreement renewal-conjunction open-renewal-agreement'
+      : 'agreement-label open-agreement');
+    $('consent-error').textContent = isMonthly
+      ? '请先阅读并确认两份协议。'
+      : '请先阅读并同意权益包购买须知。';
+    $('buy-button').textContent = isMonthly ? mode.button + payable : mode.button + ' ' + amount(currentPrice, true);
+  }
+
+  function clearConsentError() {
+    $('agreement').removeAttribute('aria-invalid');
+    $('consent-error').hidden = true;
+  }
+
+  function showSheet(panel, heading) {
+    const dialog = $('dialog');
+    dialog.dataset.activePanel = panel;
+    $('sheet-title').textContent = heading;
+    dialog.querySelectorAll('[data-panel]').forEach((section) => {
+      section.hidden = section.dataset.panel !== panel;
+    });
+    if (!dialog.open) dialog.showModal();
+    dialog.querySelector('.dismiss').focus();
+  }
+
+  document.querySelectorAll('[data-plan]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = Number(button.dataset.plan);
+      if (selectedPlan === next) return;
+      selectedPlan = next;
+      $('agreement').checked = false;
+      clearConsentError();
+      renderPlan();
+    });
+  });
+
+  document.querySelectorAll('input[name="purchase-mode"]').forEach((input) => {
+    input.addEventListener('change', () => {
+      if (!input.checked || input.value === selectedMode) return;
+      selectedMode = input.value;
+      $('agreement').checked = false;
+      clearConsentError();
+      renderPlan();
+    });
+  });
+
+  document.querySelectorAll('[data-dismiss]').forEach((button) => {
+    button.addEventListener('click', () => $('dialog').close());
+  });
+
+  $('open-store').addEventListener('click', () => {
+    document.querySelectorAll('input[name="store"]').forEach((input) => {
+      input.checked = input.value === store;
+    });
+    showSheet('store', '选择购买门店');
+  });
+
+  $('apply-store').addEventListener('click', () => {
+    const choice = document.querySelector('input[name="store"]:checked');
+    if (choice) store = choice.value;
+    $('store-name').textContent = store;
+    $('dialog').close();
+  });
+
+  $('agreement').addEventListener('change', clearConsentError);
+  $('open-agreement').addEventListener('click', () => {
+    const isMonthly = selectedMode === 'monthly';
+    const payable = amount(price(selectedPlan, selectedMode));
+    const plan = plans[selectedPlan];
+    $('agreement-plan').textContent = title(selectedPlan) + ' · ' + modes[selectedMode].name + ' · 本期实付 ' + payable;
+    $('agreement-validity').textContent = isMonthly
+      ? '首期支付和微信代扣签约均成功后生效，每期 30 天。'
+      : '微信支付成功后生效，30 天有效，到期自动结束。';
+    $('agreement-passes').textContent = '每期发放 2 张，可约' + plan.scope + '，支持转赠。' + plan.difference;
+    $('agreement-refund').textContent = standardRefund;
+    $('agreement-renewal-refund').hidden = !isMonthly;
+    $('agreement-renewal-refund').textContent = renewalRefund + '退款成功后停止续订。';
+    $('accept-agreement').textContent = isMonthly ? '返回购买页' : '同意并返回';
+    showSheet('agreement', isMonthly ? 'SAVAGE 权益包协议' : '购买须知');
+    $('agreement-body').scrollTop = 0;
+  });
+
+  $('open-renewal-agreement').addEventListener('click', () => {
+    const payable = amount(price(selectedPlan, 'monthly'));
+    $('renewal-agreement-plan').textContent = title(selectedPlan);
+    $('renewal-agreement-amount').textContent = payable;
+    $('renewal-agreement-next').textContent = estimatedRenewal(payable);
+    showSheet('renewal-agreement', '自动续费服务协议');
+  });
+
+  $('dialog').addEventListener('click', (event) => {
+    if (event.target === event.currentTarget && event.currentTarget.dataset.activePanel === 'agreement') {
+      event.currentTarget.close();
+    }
+  });
+  $('accept-agreement').addEventListener('click', () => {
+    if (selectedMode === 'single') {
+      $('agreement').checked = true;
+      clearConsentError();
+    }
+    $('dialog').close();
+  });
+
+  $('buy-button').addEventListener('click', () => {
+    if (!$('agreement').checked) {
+      $('agreement').setAttribute('aria-invalid', 'true');
+      $('consent-error').hidden = false;
+      $('agreement').focus();
+      return;
+    }
+    const isMonthly = selectedMode === 'monthly';
+    const payable = amount(price(selectedPlan, selectedMode));
+    $('dialog-plan').textContent = title(selectedPlan);
+    $('dialog-mode').textContent = modes[selectedMode].name;
+    $('dialog-price').textContent = payable;
+    $('dialog-renewal-row').hidden = !isMonthly;
+    $('dialog-renewal').textContent = isMonthly ? estimatedRenewal(payable) : '';
+    $('dialog-store').textContent = store;
+    $('pay-demo-copy').textContent = isMonthly ? '代扣模板审核预览，查看签约与扣费信息。' : '购买流程预览，查看订单金额。';
+    showSheet('pay', isMonthly ? '确认订阅与微信支付' : '确认购买与微信支付');
+  });
+
+  new ResizeObserver(() => {
+    if (!$('checkout').hidden) {
+      document.documentElement.style.setProperty('--footer-height', $('checkout').offsetHeight + 'px');
+    }
+  }).observe($('checkout'));
+
+  renderPlan();
+</script>
+</body>
+</html>
